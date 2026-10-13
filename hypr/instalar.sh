@@ -67,11 +67,12 @@ sudo pacman -S --needed --noconfirm \
     hyprland waybar hyprlock hypridle hyprsunset mako swaybg xorg-xwayland \
     kitty qutebrowser python-adblock mpv mpv-mpris yt-dlp nodejs imv zathura zathura-pdf-mupdf thunar tumbler \
     yazi poppler imagemagick 7zip fd ripgrep zoxide \
-    wl-clipboard cliphist grim slurp wf-recorder wtype jq libnotify \
+    wl-clipboard cliphist grim slurp wf-recorder satty hyprpicker wtype jq libnotify \
     hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk xdg-utils \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
     bluez bluez-utils bluetui kdeconnect openvpn nss \
-    zsh zsh-autosuggestions zsh-syntax-highlighting fzf lsd bat \
+    zsh zsh-autosuggestions zsh-syntax-highlighting fzf lsd bat tmux \
+    pacman-contrib \
     ttf-hack-nerd noto-fonts-emoji \
     zram-generator \
     neovim git curl wget
@@ -226,6 +227,8 @@ fi
 [ -d "$HOME/powerlevel10k" ] || git clone --depth=1 --branch "$P10K_TAG" https://github.com/romkatv/powerlevel10k.git "$HOME/powerlevel10k"
 poner "$COMUN/zsh/.zshrc"    "$HOME/.zshrc"
 poner "$COMUN/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
+poner "$COMUN/zsh/lab.zsh"   "$C/lab.zsh"
+poner "$COMUN/tmux/tmux.conf" "$C/tmux/tmux.conf"
 cat > "$C/target.zsh" <<'EOT'
 # Maquina objetivo que muestra la barra
 settarget() {

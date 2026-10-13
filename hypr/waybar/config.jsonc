@@ -12,5 +12,5 @@
 
     "modules-left":   ["custom/arch", "network", "bluetooth"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right":  ["custom/grabando", "cpu", "memory", "backlight", "wireplumber", "battery", "clock"]
+    "modules-right":  ["custom/grabando", "custom/actualizaciones", "cpu", "memory", "backlight", "wireplumber", "battery", "clock"]
 }

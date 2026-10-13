@@ -137,6 +137,8 @@ No vienen incluidos. Las imágenes van en `~/Pictures/wallpapers` y se eligen co
 | `Super + Shift + M` | Música de YouTube, solo audio |
 | `Super + Shift + O` | VPN del laboratorio (OpenVPN) |
 | `Super + Shift + F` | Archivos con teclado (yazi); `Espacio` agranda la vista previa |
+| `Super + Shift + U` | Utilidades: wifi, calculadora, color, anotar una captura, actualizar |
+| `Super + Tab` | Buscar una ventana abierta y saltar a ella |
 | `Super + Shift + X` | Bloquear |
 | `Super + Shift + E` | Apagar, reiniciar, suspender |
 | Tres dedos hacia los lados | Cambiar de escritorio |
@@ -154,6 +156,10 @@ Los menús se cierran con la misma tecla que los abre.
 **Batería.** `sudo sh extras/limite-carga.sh` limita la carga al 80 %, lo que alarga su vida útil si el equipo pasa mucho tiempo enchufado. Con `100` al final se quita el límite.
 
 **Laboratorio.** La barra de laboratorio (`Super + Shift + B`) muestra la IP, la VPN, el proxy y el objetivo. La VPN se conecta con `Super + Shift + O` o con un clic en la barra, usando el archivo `.ovpn` que esté en `~/vpn`. `sh extras/instalar-caido.sh` instala [Caido](https://caido.io), un proxy para auditar web más liviano que Burp: se enciende con un clic en "proxy" y en qutebrowser las teclas `,p` pasan el tráfico por él. `sh extras/certificado-proxy.sh ca.crt` hace que el navegador confíe en su certificado.
+
+**Terminal.** `mkt nombre` arma las carpetas de una máquina, `extractPorts archivo` saca los puertos abiertos de un escaneo de nmap y los copia, `addhost ip nombre` la agrega a `/etc/hosts`, y `z nombre` salta a una carpeta ya visitada. tmux usa `Ctrl + a` como prefijo, con las mismas teclas que los paneles de kitty. Lo propio de cada equipo va en `~/.zshrc.local`, que el instalador no toca.
+
+**Instantáneas.** `sudo sh extras/instantaneas.sh` deja una foto del sistema antes y después de cada cambio hecho con pacman, para poder deshacerlo.
 
 **Cortafuegos.** `sudo sh extras/cortafuegos.sh` bloquea todo lo que entra, salvo lo que llega por la VPN (los listeners del laboratorio), KDE Connect y LocalSend.
 

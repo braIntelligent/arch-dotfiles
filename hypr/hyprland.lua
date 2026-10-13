@@ -138,6 +138,15 @@ hl.window_rule({
     move  = { "monitor_w * 0.2", "monitor_h * 0.25" },
 })
 
+-- actualizacion del sistema: flotante
+hl.window_rule({
+    name  = "actualizar",
+    match = { class = "^actualizar$" },
+    float = true,
+    size  = { "monitor_w * 0.6", "monitor_h * 0.6" },
+    move  = { "monitor_w * 0.2", "monitor_h * 0.2" },
+})
+
 -- bluetui: ventana flotante al centro. stay_focused: mientras este abierta se queda
 -- con el teclado, aunque el puntero pase sobre otra ventana (si no, las teclas
 -- se iban a la de atras). Se cierra con q o con Super + G.
@@ -204,6 +213,9 @@ hl.bind(M .. " + SHIFT + N", sh("makoctl dismiss -a"),    { description = "cerra
 hl.bind(M .. " + SHIFT + G", sh(S .. "grabar.sh"),        { description = "grabar la pantalla / detener" })
 hl.bind(M .. " + SHIFT + M", menu("musica.sh"),         { description = "musica de YouTube: buscar, detener" })
 hl.bind(M .. " + SHIFT + O", menu("vpn.sh"),            { description = "VPN de HTB (OpenVPN)" })
+hl.bind(M .. " + SHIFT + U", menu("utilidades.sh"),     { description = "utilidades: wifi, calculadora, color, ventanas..." })
+hl.bind(M .. " + Tab",       sh("pkill -x rofi || rofi -show window -theme " .. HOME .. "/.config/rofi/list.rasi -theme-str 'window { width: 760px; }'"),
+        { description = "buscar una ventana abierta y saltar a ella" })
 hl.bind(M .. " + SHIFT + V", menu("portapapeles.sh"),   { description = "historial del portapapeles" })
 hl.bind(M .. " + SHIFT + R", menu("configs.sh"),        { description = "editar configs" })
 hl.bind(M .. " + SHIFT + I", menu("keyboard.sh"),       { description = "distribucion de teclado" })

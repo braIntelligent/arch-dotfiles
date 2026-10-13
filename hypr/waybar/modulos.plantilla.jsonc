@@ -11,6 +11,12 @@
         "interval": "once", "signal": 8, "tooltip": false,
         "on-click": "~/.config/hypr/scripts/grabar.sh"
     },
+    // paquetes por actualizar (se revisa cada media hora); clic: actualizar
+    "custom/actualizaciones": {
+        "exec": "~/.config/waybar/scripts/actualizaciones.sh",
+        "interval": 1800, "signal": 9, "tooltip": false,
+        "on-click": "~/.config/hypr/scripts/actualizar.sh"
+    },
     "custom/ip":     { "exec": "~/.config/waybar/scripts/ip.sh",     "interval": 2, "tooltip": false },
     // clic: conectar la VPN (o traer su ventana al frente)
     "custom/vpn":    { "exec": "~/.config/waybar/scripts/vpn.sh",    "interval": 2, "tooltip": false,
@@ -55,6 +61,7 @@
         "max-length": 22,
         "format-ethernet": "<span color='@blue@'></span>  cable",
         "format-disconnected": "<span color='@dim@'>  sin wifi</span>",
+        "on-click": "~/.config/hypr/scripts/wifi.sh",
         "tooltip-format-wifi": "{signalStrength}%  {frequency} GHz  {ipaddr}",
         "tooltip-format": "{ifname}  {ipaddr}"
     },

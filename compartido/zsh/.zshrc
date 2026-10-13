@@ -72,6 +72,13 @@ alias catnp='bat --style=plain --paging=never'
 # Funciones: settarget / cleartarget para la polybar
 # ----------------------------------------------------------------------------
 source ~/.config/target.zsh
+[ -f ~/.config/lab.zsh ] && source ~/.config/lab.zsh      # mkt, extractPorts, addhost
+
+# zoxide: "z nombre" salta a una carpeta ya visitada, sin escribir la ruta
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+
+# Ajustes solo de este equipo (alias propios, rutas): no los pisa el instalador
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 # ----------------------------------------------------------------------------
 # Prompt: Powerlevel10k (para cambiarlo: `p10k configure` o editar ~/.p10k.zsh)
