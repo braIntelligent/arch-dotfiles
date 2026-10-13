@@ -23,7 +23,7 @@ aviso() { printf '    %s\n' "$1"; }
 
 [ "$(id -u)" != 0 ] || { echo "corre este script como usuario normal, no como root"; exit 1; }
 command -v pacman >/dev/null || { echo "esto es para Arch Linux (no encuentro pacman)"; exit 1; }
-for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$RAIZ/themes" "$RAIZ/kitty" "$RAIZ/zsh"; do
+for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$RAIZ/themes" "$RAIZ/kitty" "$RAIZ/qutebrowser" "$RAIZ/zsh"; do
     [ -d "$d" ] || { echo "falta la carpeta $d: copia arch-dotfiles completa"; exit 1; }
 done
 
@@ -50,7 +50,7 @@ paso "Actualizando el sistema e instalando paquetes"
 sudo pacman -Syu --noconfirm
 sudo pacman -S --needed --noconfirm \
     hyprland waybar hyprlock hypridle hyprsunset mako swaybg xorg-xwayland \
-    kitty firefox mpv imv thunar tumbler \
+    kitty firefox qutebrowser mpv mpv-mpris yt-dlp nodejs imv thunar tumbler \
     wl-clipboard cliphist grim slurp wf-recorder wtype jq libnotify \
     hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
@@ -133,6 +133,7 @@ for f in "$AQUI"/rofi/*.rasi; do
     poner "$f" "$C/rofi/$(basename "$f")"
 done
 poner "$RAIZ/kitty/kitty.conf" "$C/kitty/kitty.conf"
+poner "$RAIZ/qutebrowser/config.py" "$C/qutebrowser/config.py"
 [ -f "$C/kitty/color.ini" ] || install -Dm644 "$RAIZ/kitty/color.ini" "$C/kitty/color.ini"
 
 if [ "$MODO" = vm ]; then
@@ -147,6 +148,9 @@ fi
 for t in video/mp4 video/x-matroska video/webm video/quicktime; do xdg-mime default mpv.desktop "$t"; done
 for t in image/png image/jpeg image/webp image/gif; do xdg-mime default imv-dir.desktop "$t"; done
 xdg-mime default thunar.desktop inode/directory
+
+# yt-dlp al dia para la musica de YouTube (la version de los repositorios queda vieja)
+sh "$RAIZ/scripts/actualizar-yt-dlp.sh" || aviso "no se pudo actualizar yt-dlp; despues: sh scripts/actualizar-yt-dlp.sh"
 
 # ---------------------------------------------------------------- fondos
 paso "Fondos de pantalla"

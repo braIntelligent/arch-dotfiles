@@ -48,7 +48,7 @@ Para limitar la carga de la batería al 80 % en un Mac (alarga su vida útil si 
 |---|---|
 | `hypr/` | Variante Hyprland: configuración, barra, menús y el instalador |
 | `bspwm-scripts/`, `sxhkd/`, `polybar/`, `picom/`, `rofi/` | Variante bspwm |
-| `kitty/`, `zsh/`, `themes/` | Compartido por ambas |
+| `kitty/`, `zsh/`, `themes/`, `qutebrowser/` | Compartido por ambas |
 | `scripts/` | Instalación de herramientas (BlackArch, NvChad, LocalSend) y el límite de carga del Mac |
 | `scripts/vm/` | Ajustes puntuales de la máquina virtual |
 
@@ -71,6 +71,8 @@ Para limitar la carga de la batería al 80 % en un Mac (alarga su vida útil si 
 | `Super + Shift + n` | Cerrar las notificaciones |
 | `Super + Shift + v` | Historial del portapapeles |
 | `Super + Shift + f` | Archivos (thunar) |
+| `Super + Shift + q` | Navegador liviano (qutebrowser) |
+| `Super + Shift + m` | Música de YouTube: buscar y reproducir solo el audio |
 | `Super + Shift + s` | Menú de capturas y grabación |
 | `Super + Shift + g` | Grabar la pantalla; otra vez para detener |
 | Tres dedos hacia los lados | Cambiar de escritorio |

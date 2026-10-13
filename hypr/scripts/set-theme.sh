@@ -207,10 +207,90 @@ EOT
     } > "$kg"
 fi
 
+# --- qutebrowser ---
+mkdir -p "$HOME/.config/qutebrowser"
+cat > "$HOME/.config/qutebrowser/colores.py" <<EOT
+# Colores del tema activo. Lo reescribe set-theme.sh
+bg, bg_alt, fg, dim = "$bg", "$bg_alt", "$fg", "$dim"
+accent, red, green, yellow = "$accent", "$red", "$green", "$yellow"
+
+c.colors.webpage.bg = bg        # sin destello blanco mientras carga la pagina
+
+c.colors.tabs.bar.bg = bg
+for par in ("odd", "even"):
+    setattr(c.colors.tabs, par + ".bg", bg)
+    setattr(c.colors.tabs, par + ".fg", dim)
+    setattr(c.colors.tabs.selected, par + ".bg", bg_alt)
+    setattr(c.colors.tabs.selected, par + ".fg", fg)
+    setattr(c.colors.completion, par + ".bg", bg)
+c.colors.tabs.indicator.start = accent
+c.colors.tabs.indicator.stop = green
+c.colors.tabs.indicator.error = red
+
+c.colors.statusbar.normal.bg = bg
+c.colors.statusbar.normal.fg = fg
+c.colors.statusbar.command.bg = bg
+c.colors.statusbar.command.fg = fg
+c.colors.statusbar.insert.bg = green
+c.colors.statusbar.insert.fg = bg
+c.colors.statusbar.passthrough.bg = accent
+c.colors.statusbar.passthrough.fg = bg
+c.colors.statusbar.url.fg = fg
+c.colors.statusbar.url.success.http.fg = fg
+c.colors.statusbar.url.success.https.fg = green
+c.colors.statusbar.url.hover.fg = accent
+c.colors.statusbar.url.warn.fg = yellow
+c.colors.statusbar.url.error.fg = red
+
+c.colors.completion.fg = fg
+c.colors.completion.category.bg = bg_alt
+c.colors.completion.category.fg = accent
+c.colors.completion.category.border.top = bg_alt
+c.colors.completion.category.border.bottom = bg_alt
+c.colors.completion.item.selected.bg = accent
+c.colors.completion.item.selected.fg = bg
+c.colors.completion.item.selected.border.top = accent
+c.colors.completion.item.selected.border.bottom = accent
+c.colors.completion.item.selected.match.fg = bg
+c.colors.completion.match.fg = accent
+c.colors.completion.scrollbar.bg = bg
+c.colors.completion.scrollbar.fg = dim
+
+c.colors.hints.bg = yellow
+c.colors.hints.fg = bg
+c.colors.hints.match.fg = dim
+c.hints.border = "1px solid " + bg
+
+c.colors.messages.info.bg = bg
+c.colors.messages.info.fg = fg
+c.colors.messages.info.border = bg_alt
+c.colors.messages.warning.bg = yellow
+c.colors.messages.warning.fg = bg
+c.colors.messages.warning.border = yellow
+c.colors.messages.error.bg = red
+c.colors.messages.error.fg = bg
+c.colors.messages.error.border = red
+
+c.colors.prompts.bg = bg_alt
+c.colors.prompts.fg = fg
+c.colors.prompts.border = "1px solid " + accent
+c.colors.prompts.selected.bg = accent
+c.colors.prompts.selected.fg = bg
+
+c.colors.downloads.bar.bg = bg
+c.colors.downloads.start.bg = accent
+c.colors.downloads.start.fg = bg
+c.colors.downloads.stop.bg = green
+c.colors.downloads.stop.fg = bg
+c.colors.downloads.error.bg = red
+c.colors.downloads.error.fg = bg
+EOT
+
 printf '%s\n' "$theme" > "$HOME/.cache/theme"
 
 # --- recargar ---
 pkill -USR1 -x kitty 2>/dev/null
 pkill -USR2 -x waybar 2>/dev/null
 makoctl reload >/dev/null 2>&1
+pgrep -x qutebrowser >/dev/null && qutebrowser ':config-source' >/dev/null 2>&1 &
 hyprctl reload >/dev/null 2>&1 || true

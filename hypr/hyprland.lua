@@ -157,6 +157,7 @@ hl.bind(M .. " + Return", sh(terminal),  { description = "terminal" })
 hl.bind(M .. " + space",  sh("pkill -x rofi || rofi -show run"), { description = "lanzador (la misma tecla lo cierra)" })
 hl.bind(M .. " + N",      sh("firefox"), { description = "navegador" })
 hl.bind(M .. " + SHIFT + F", sh("thunar"), { description = "archivos" })
+hl.bind(M .. " + SHIFT + Q", sh("qutebrowser"), { description = "navegador liviano (qutebrowser)" })
 
 -- menus. En Wayland la tecla la recibe Hyprland y no rofi, asi que el "cerrar con la
 -- misma tecla" se hace aqui: si hay un rofi abierto se cierra; si no, se abre el menu.
@@ -170,6 +171,7 @@ hl.bind(M .. " + SHIFT + B", sh(S .. "barra.sh cambiar"), { description = "barra
 hl.bind(M .. " + G",         sh(S .. "bluetooth.sh"),     { description = "bluetooth (la misma tecla lo cierra)" })
 hl.bind(M .. " + SHIFT + N", sh("makoctl dismiss -a"),    { description = "cerrar las notificaciones" })
 hl.bind(M .. " + SHIFT + G", sh(S .. "grabar.sh"),        { description = "grabar la pantalla / detener" })
+hl.bind(M .. " + SHIFT + M", menu("musica.sh"),         { description = "musica de YouTube: buscar, detener" })
 hl.bind(M .. " + SHIFT + V", menu("portapapeles.sh"),   { description = "historial del portapapeles" })
 hl.bind(M .. " + SHIFT + R", menu("configs.sh"),        { description = "editar configs" })
 hl.bind(M .. " + SHIFT + I", menu("keyboard.sh"),       { description = "distribucion de teclado" })
@@ -278,7 +280,16 @@ hl.bind(M .. " + X", tecla_mac("CTRL", "x"), { description = "cortar" })
 hl.bind(M .. " + A", tecla_mac("CTRL", "a"), { description = "seleccionar todo" })
 hl.bind(M .. " + Z", tecla_mac("CTRL", "z"), { description = "deshacer" })
 hl.bind(M .. " + SHIFT + Z", tecla_mac("CTRL SHIFT", "z"), { description = "rehacer" })
-hl.bind(M .. " + BackSpace", tecla_mac("SHIFT", "Home", "CTRL", "u"), { description = "borrar la linea" })
+-- borrar la linea: en la terminal es Ctrl+U; en lo demas no hay una tecla unica,
+-- asi que se selecciona hasta el inicio (Shift+Inicio) y se borra lo seleccionado
+hl.bind(M .. " + BackSpace", function()
+    if es_terminal() then
+        hl.dispatch(hl.dsp.send_shortcut({ mods = "CTRL", key = "u" }))
+    else
+        hl.dispatch(hl.dsp.send_shortcut({ mods = "SHIFT", key = "Home" }))
+        hl.dispatch(hl.dsp.send_shortcut({ mods = "", key = "BackSpace" }))
+    end
+end, { description = "borrar la linea" })
 
 -- teclas de funcion del portatil: volumen, brillo de pantalla y del teclado.
 -- "locked" las deja funcionar con la pantalla bloqueada; "repeating", al mantenerlas.
@@ -289,7 +300,8 @@ hl.bind("XF86AudioLowerVolume",  sh(N .. "vol -"),     tecla)
 hl.bind("XF86AudioMute",         sh(N .. "vol mudo"),  { locked = true })
 hl.bind("XF86AudioMicMute",      sh(N .. "mic mudo"),  { locked = true })
 hl.bind("XF86AudioPlay",         sh("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioNext",         sh("playerctl next"),       { locked = true })
+-- si suena la musica de musica.sh, "siguiente" salta de tema ahi; si no, al reproductor
+hl.bind("XF86AudioNext",         sh(S .. "musica.sh siguiente || playerctl next"), { locked = true })
 hl.bind("XF86AudioPrev",         sh("playerctl previous"),   { locked = true })
 hl.bind("XF86MonBrightnessUp",   sh(N .. "brillo +"),  tecla)
 hl.bind("XF86MonBrightnessDown", sh(N .. "brillo -"),  tecla)
