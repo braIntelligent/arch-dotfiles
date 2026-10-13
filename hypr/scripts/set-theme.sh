@@ -114,6 +114,91 @@ return {
 }
 EOT
 
+# --- hyprlock (bloqueo de pantalla) ---
+cat > "$HOME/.config/hypr/hyprlock-colores.conf" <<EOT
+# Colores del tema activo. Lo reescribe set-theme.sh
+\$bg     = rgb(${bg#\#})
+\$fg     = rgb(${fg#\#})
+\$accent = rgb(${accent#\#})
+\$green  = rgb(${green#\#})
+\$red    = rgb(${red#\#})
+EOT
+
+# --- aplicaciones GTK y Qt: oscuras y con los colores del tema ---
+# (dialogos de archivo, LocalSend, KDE Connect; Firefox toma de aqui el modo oscuro)
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null
+gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark 2>/dev/null
+marca="/* generado por set-theme.sh */"
+css_gtk() {     # no pisa un gtk.css que no sea el nuestro
+    [ ! -f "$1" ] || grep -qF "$marca" "$1" || return 0
+    mkdir -p "$(dirname "$1")"
+    { printf '%s\n' "$marca"; cat; } > "$1"
+}
+css_gtk "$HOME/.config/gtk-4.0/gtk.css" <<EOT
+@define-color window_bg_color   $bg;
+@define-color window_fg_color   $fg;
+@define-color view_bg_color     $bg;
+@define-color view_fg_color     $fg;
+@define-color headerbar_bg_color $bg_alt;
+@define-color headerbar_fg_color $fg;
+@define-color sidebar_bg_color  $bg_alt;
+@define-color card_bg_color     $bg_alt;
+@define-color popover_bg_color  $bg_alt;
+@define-color dialog_bg_color   $bg_alt;
+@define-color accent_bg_color   $accent;
+@define-color accent_fg_color   $bg;
+@define-color accent_color      $accent;
+EOT
+css_gtk "$HOME/.config/gtk-3.0/gtk.css" <<EOT
+@define-color theme_bg_color          $bg;
+@define-color theme_fg_color          $fg;
+@define-color theme_base_color        $bg;
+@define-color theme_text_color        $fg;
+@define-color theme_selected_bg_color $accent;
+@define-color theme_selected_fg_color $bg;
+@define-color borders                 $bg_alt;
+window, .background { background-color: $bg; color: $fg; }
+headerbar, .titlebar { background: $bg_alt; color: $fg; }
+EOT
+
+# KDE Connect y otras aplicaciones de KDE leen sus colores de kdeglobals
+rgb() {     # "#rrggbb" -> "r,g,b"
+    h=${1#\#}
+    printf '%d,%d,%d' "0x$(printf %s "$h" | cut -c1-2)" "0x$(printf %s "$h" | cut -c3-4)" "0x$(printf %s "$h" | cut -c5-6)"
+}
+kg="$HOME/.config/kdeglobals"
+if [ ! -f "$kg" ] || grep -qF "generado por set-theme.sh" "$kg"; then
+    {
+        echo "# generado por set-theme.sh"
+        for seccion in Window View Button Header Tooltip Complementary; do
+            fondo=$bg
+            case "$seccion" in Button|Header|Tooltip) fondo=$bg_alt ;; esac
+            cat <<EOT
+[Colors:$seccion]
+BackgroundNormal=$(rgb "$fondo")
+BackgroundAlternate=$(rgb "$bg_alt")
+ForegroundNormal=$(rgb "$fg")
+ForegroundInactive=$(rgb "$dim")
+ForegroundLink=$(rgb "$accent")
+ForegroundNegative=$(rgb "$red")
+ForegroundPositive=$(rgb "$green")
+DecorationFocus=$(rgb "$accent")
+DecorationHover=$(rgb "$accent")
+
+EOT
+        done
+        cat <<EOT
+[Colors:Selection]
+BackgroundNormal=$(rgb "$accent")
+BackgroundAlternate=$(rgb "$accent")
+ForegroundNormal=$(rgb "$bg")
+ForegroundInactive=$(rgb "$bg_alt")
+DecorationFocus=$(rgb "$accent")
+DecorationHover=$(rgb "$accent")
+EOT
+    } > "$kg"
+fi
+
 printf '%s\n' "$theme" > "$HOME/.cache/theme"
 
 # --- recargar ---

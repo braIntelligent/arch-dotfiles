@@ -22,11 +22,16 @@ if es_vm then
     hl.monitor({ output = "", mode = "2560x1600@60", position = "auto", scale = 2 })
 else
     -- Pantalla Retina del portatil: resolucion propia, todo al doble de tamano.
-    hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 2 })
+    hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 2 })
+    -- Cualquier otra pantalla que se conecte: su resolucion propia, al lado, y la
+    -- escala que le corresponda segun su tamano.
+    hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
 end
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+-- las aplicaciones Qt (KDE Connect) toman el aspecto de las GTK: oscuro, como el resto
+hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
 
 ------------------------------------------------------------------ aspecto
 hl.config({
@@ -66,7 +71,20 @@ hl.config({
         touchpad = {
             natural_scroll = true,      -- trackpad
             scroll_factor  = 1.0,
+            -- clic secundario apretando el trackpad con dos dedos, como en macOS
+            -- (sin esto, el clic secundario es apretar en la esquina inferior derecha)
+            clickfinger_behavior = true,
+            -- solo vale apretar: tocar sin apretar no hace clic
+            tap_to_click = false,
         },
+    },
+    gestures = {
+        -- cambio de escritorio con tres dedos: basta un deslizamiento corto.
+        -- distance: recorrido total en pixeles; cancel_ratio: que parte hay que
+        -- recorrer para que cambie; min_speed: un gesto rapido cambia aunque sea corto
+        workspace_swipe_distance           = 150,
+        workspace_swipe_cancel_ratio       = 0.15,
+        workspace_swipe_min_speed_to_force = 5,
     },
     ecosystem = { no_update_news = true, no_donation_nag = true },
 })
