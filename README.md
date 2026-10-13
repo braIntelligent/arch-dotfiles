@@ -17,9 +17,13 @@ Un escritorio en mosaico que se maneja entero con el teclado y se instala con un
 
 ## Por qué existe
 
-Empezó como una forma de aprender Arch a mano: una máquina virtual, una instalación desde cero y un escritorio bspwm que fui armando siguiendo el curso de [S4vitar](https://hack4u.io), mientras entendía qué hacía cada comando. Cuando quedó como quería, lo llevé al equipo real, un MacBook Air M1, y ahí hubo que rehacerlo en Wayland.
+Lo que siempre ando buscando es una combinación: el hardware de Apple con un sistema Linux, y la comodidad de los atajos del Mac. Durante mucho tiempo la única forma de acercarme fue con máquinas virtuales.
 
-Lo uso a diario para estudiar ciberseguridad, y se nota en los detalles: la barra tiene un modo de laboratorio con la IP, la VPN y la máquina objetivo siempre a la vista.
+Este escritorio empezó así: una máquina virtual, Arch instalado a mano y un bspwm que fui armando con el curso de [S4vitar](https://hack4u.io), entendiendo qué hacía cada comando. Cuando quedó como quería, lo llevé al equipo real, un MacBook Air M1 con Asahi, y ahí hubo que rehacerlo en Wayland.
+
+Por eso copiar, pegar, cortar y deshacer van con `Super` (la tecla Cmd) en cualquier programa, y el trackpad se comporta como en macOS.
+
+Lo uso para estudiar ciberseguridad y resolver máquinas, y se nota en los detalles: la barra tiene un modo de laboratorio con la IP, la VPN y la máquina objetivo siempre a la vista.
 
 Tres ideas lo ordenan:
 
