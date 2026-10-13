@@ -146,6 +146,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd(S .. "aplicar-fondo.sh")
     hl.exec_cmd(S .. "barra.sh")
     hl.exec_cmd("mako")        -- notificaciones
+    -- modo oscuro para Firefox y las aplicaciones GTK. set-theme.sh tambien lo pide,
+    -- pero si la instalacion se hizo sin sesion grafica ese ajuste no quedo guardado
+    hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme prefer-dark")
     hl.exec_cmd("hypridle")    -- bloqueo y apagado de pantalla por inactividad
     -- historial del portapapeles: guarda cada texto o imagen que se copia
     hl.exec_cmd("wl-paste --type text --watch cliphist store")

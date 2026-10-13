@@ -219,6 +219,36 @@ EOT
     } > "$kg"
 fi
 
+# --- zathura (visor de PDF) ---
+mkdir -p "$HOME/.config/zathura"
+cat > "$HOME/.config/zathura/zathurarc" <<EOT
+# Lo reescribe set-theme.sh al cambiar de tema.
+# Teclas: j k y flechas se mueven, + - zoom, a ajusta a la pagina, s al ancho,
+# / busca, Ctrl+r cambia entre la pagina con los colores del tema y la original, q cierra.
+set font "Hack Nerd Font 11"
+set selection-clipboard clipboard
+set recolor true
+set recolor-keephue true
+set default-bg "$bg"
+set default-fg "$fg"
+set recolor-lightcolor "$bg"
+set recolor-darkcolor "$fg"
+set statusbar-bg "$bg_alt"
+set statusbar-fg "$fg"
+set inputbar-bg "$bg_alt"
+set inputbar-fg "$fg"
+set highlight-color "$yellow"
+set highlight-active-color "$accent"
+set index-bg "$bg"
+set index-fg "$fg"
+set index-active-bg "$accent"
+set index-active-fg "$bg"
+set notification-bg "$bg_alt"
+set notification-fg "$fg"
+set notification-error-bg "$red"
+set notification-error-fg "$bg"
+EOT
+
 # --- qutebrowser ---
 mkdir -p "$HOME/.config/qutebrowser"
 cat > "$HOME/.config/qutebrowser/colores.py" <<EOT
