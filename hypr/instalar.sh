@@ -50,7 +50,7 @@ paso "Actualizando el sistema e instalando paquetes"
 sudo pacman -Syu --noconfirm
 sudo pacman -S --needed --noconfirm \
     hyprland waybar hyprlock hypridle hyprsunset mako swaybg xorg-xwayland \
-    kitty firefox \
+    kitty firefox mpv imv thunar tumbler \
     wl-clipboard cliphist grim slurp wf-recorder wtype jq libnotify \
     hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
@@ -141,6 +141,12 @@ if [ "$MODO" = vm ]; then
 else
     rm -f "$C/hypr/es-vm"
 fi
+
+# ---------------------------------------------------------------- programas por defecto
+# con que se abre cada tipo de archivo: videos en mpv, imagenes en imv (las flechas recorren la carpeta), carpetas en thunar
+for t in video/mp4 video/x-matroska video/webm video/quicktime; do xdg-mime default mpv.desktop "$t"; done
+for t in image/png image/jpeg image/webp image/gif; do xdg-mime default imv-dir.desktop "$t"; done
+xdg-mime default thunar.desktop inode/directory
 
 # ---------------------------------------------------------------- fondos
 paso "Fondos de pantalla"

@@ -127,7 +127,15 @@ EOT
 # --- aplicaciones GTK y Qt: oscuras y con los colores del tema ---
 # (dialogos de archivo, LocalSend, KDE Connect; Firefox toma de aqui el modo oscuro)
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null
-gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark 2>/dev/null
+# el tema es "Adwaita" a secas: "Adwaita-dark" no viene con GTK y lo dejaria claro
+gsettings set org.gnome.desktop.interface gtk-theme Adwaita 2>/dev/null
+# GTK 3 no siempre toma lo anterior (thunar salia claro): tambien por settings.ini
+for v in 3.0 4.0; do
+    ini="$HOME/.config/gtk-$v/settings.ini"
+    [ -f "$ini" ] && ! grep -q "generado por set-theme.sh" "$ini" && continue
+    mkdir -p "$HOME/.config/gtk-$v"
+    printf '# generado por set-theme.sh\n[Settings]\ngtk-application-prefer-dark-theme=1\n' > "$ini"
+done
 marca="/* generado por set-theme.sh */"
 css_gtk() {     # no pisa un gtk.css que no sea el nuestro
     [ ! -f "$1" ] || grep -qF "$marca" "$1" || return 0
