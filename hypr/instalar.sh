@@ -49,11 +49,12 @@ poner() {
 paso "Actualizando el sistema e instalando paquetes"
 sudo pacman -Syu --noconfirm
 sudo pacman -S --needed --noconfirm \
-    hyprland waybar hyprlock hypridle mako swaybg xorg-xwayland \
+    hyprland waybar hyprlock hypridle hyprsunset mako swaybg xorg-xwayland \
     kitty firefox \
-    wl-clipboard grim slurp wtype jq libnotify \
+    wl-clipboard cliphist grim slurp wtype jq libnotify \
+    hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
-    bluez bluez-utils bluetui \
+    bluez bluez-utils bluetui kdeconnect \
     zsh zsh-autosuggestions zsh-syntax-highlighting fzf lsd bat \
     ttf-hack-nerd noto-fonts-emoji \
     zram-generator \
@@ -119,10 +120,11 @@ mkdir -p "$C/hypr/scripts" "$C/hypr/themes" "$C/waybar/scripts" "$C/rofi" "$C/ki
 poner "$AQUI/hyprland.lua"  "$C/hypr/hyprland.lua"
 poner "$AQUI/hyprlock.conf" "$C/hypr/hyprlock.conf"
 poner "$AQUI/hypridle.conf" "$C/hypr/hypridle.conf"
+poner "$AQUI/hyprsunset.conf" "$C/hypr/hyprsunset.conf"
 [ -f "$C/hypr/colores.lua" ] || install -Dm644 "$AQUI/colores.lua" "$C/hypr/colores.lua"
 for f in "$AQUI"/scripts/*.sh;        do poner "$f" "$C/hypr/scripts/$(basename "$f")" 755; done
 for f in "$RAIZ"/themes/*.sh;         do poner "$f" "$C/hypr/themes/$(basename "$f")"; done
-for f in config.jsonc htb.jsonc modulos.jsonc; do poner "$AQUI/waybar/$f" "$C/waybar/$f"; done
+for f in config.jsonc htb.jsonc modulos.plantilla.jsonc; do poner "$AQUI/waybar/$f" "$C/waybar/$f"; done
 poner "$AQUI/waybar/style.css"    "$C/waybar/style.css"
 [ -f "$C/waybar/colors.css" ] || install -Dm644 "$AQUI/waybar/colors.css" "$C/waybar/colors.css"
 for f in "$AQUI"/waybar/scripts/*.sh; do poner "$f" "$C/waybar/scripts/$(basename "$f")" 755; done

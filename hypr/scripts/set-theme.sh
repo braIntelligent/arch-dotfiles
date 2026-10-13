@@ -48,6 +48,12 @@ cat > "$HOME/.config/waybar/colors.css" <<EOT
 @define-color magenta $magenta;
 EOT
 
+# los iconos de los modulos: la plantilla trae @color@ en vez de un color fijo
+sed -e "s/@blue@/$blue/g" -e "s/@cyan@/$cyan/g" -e "s/@green@/$green/g" \
+    -e "s/@yellow@/$yellow/g" -e "s/@magenta@/$magenta/g" -e "s/@red@/$red/g" \
+    -e "s/@dim@/$dim/g" \
+    "$HOME/.config/waybar/modulos.plantilla.jsonc" > "$HOME/.config/waybar/modulos.jsonc"
+
 # --- rofi ---
 cat > "$HOME/.config/rofi/colors.rasi" <<EOT
 * {
@@ -83,6 +89,16 @@ progress-color=over $bg_alt
 [urgency=critical]
 border-color=$red
 default-timeout=0
+
+# indicador de volumen y brillo (scripts/nivel.sh): abajo al centro y breve
+[app-name=osd]
+anchor=bottom-center
+margin=0,0,70,0
+width=260
+text-alignment=center
+default-timeout=1200
+progress-color=over $accent
+text-color=$fg
 EOT
 
 # --- hyprland (bordes) ---

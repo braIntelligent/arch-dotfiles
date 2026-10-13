@@ -80,6 +80,9 @@ hl.animation({ leaf = "layers",     enabled = true, speed = 1.5, bezier = "defau
 hl.animation({ leaf = "workspaces", enabled = true, speed = 2,   bezier = "default" })
 hl.animation({ leaf = "border",     enabled = false })
 
+-- tres dedos hacia los lados en el trackpad: cambiar de escritorio
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
 ------------------------------------------------------------------ reglas
 -- ignorar las peticiones de "maximizar" de las aplicaciones: kitty la pide al
 -- abrir y quedaba tapando a las demas ventanas
@@ -117,6 +120,14 @@ hl.on("hyprland.start", function()
     hl.exec_cmd(S .. "barra.sh")
     hl.exec_cmd("mako")        -- notificaciones
     hl.exec_cmd("hypridle")    -- bloqueo y apagado de pantalla por inactividad
+    -- historial del portapapeles: guarda cada texto o imagen que se copia
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    -- dialogo de clave para las aplicaciones que piden permisos de administrador
+    hl.exec_cmd("systemctl --user start hyprpolkitagent")
+    hl.exec_cmd(S .. "bateria-aviso.sh")   -- avisos de bateria baja
+    hl.exec_cmd("hyprsunset")              -- luz nocturna por horario (hyprsunset.conf)
+    hl.exec_cmd("kdeconnectd")             -- enlace con el telefono (KDE Connect)
 end)
 
 ------------------------------------------------------------------ atajos
@@ -139,6 +150,7 @@ hl.bind(M .. " + SHIFT + D", menu("cheatsheet.sh"),     { description = "hoja de
 hl.bind(M .. " + SHIFT + B", sh(S .. "barra.sh cambiar"), { description = "barra: normal / HTB" })
 hl.bind(M .. " + G",         sh(S .. "bluetooth.sh"),     { description = "bluetooth (la misma tecla lo cierra)" })
 hl.bind(M .. " + SHIFT + N", sh("makoctl dismiss -a"),    { description = "cerrar las notificaciones" })
+hl.bind(M .. " + SHIFT + V", menu("portapapeles.sh"),   { description = "historial del portapapeles" })
 hl.bind(M .. " + SHIFT + R", menu("configs.sh"),        { description = "editar configs" })
 hl.bind(M .. " + SHIFT + I", menu("keyboard.sh"),       { description = "distribucion de teclado" })
 hl.bind(M .. " + B",         sh("pkill -USR1 -x waybar"),  { description = "ocultar/mostrar la barra" })
@@ -250,21 +262,22 @@ hl.bind(M .. " + BackSpace", tecla_mac("SHIFT", "Home", "CTRL", "u"), { descript
 -- teclas de funcion del portatil: volumen, brillo de pantalla y del teclado.
 -- "locked" las deja funcionar con la pantalla bloqueada; "repeating", al mantenerlas.
 local tecla = { locked = true, repeating = true }
-hl.bind("XF86AudioRaiseVolume",  sh("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), tecla)
-hl.bind("XF86AudioLowerVolume",  sh("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      tecla)
-hl.bind("XF86AudioMute",         sh("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true })
-hl.bind("XF86AudioMicMute",      sh("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true })
-hl.bind("XF86AudioPlay",         sh("playerctl play-pause"),                           { locked = true })
-hl.bind("XF86AudioNext",         sh("playerctl next"),                                 { locked = true })
-hl.bind("XF86AudioPrev",         sh("playerctl previous"),                             { locked = true })
-hl.bind("XF86MonBrightnessUp",   sh("brightnessctl -e4 -n2 set 5%+"),                  tecla)
-hl.bind("XF86MonBrightnessDown", sh("brightnessctl -e4 -n2 set 5%-"),                  tecla)
-hl.bind("XF86KbdBrightnessUp",   sh("brightnessctl --device='*kbd_backlight' set 10%+"), tecla)
-hl.bind("XF86KbdBrightnessDown", sh("brightnessctl --device='*kbd_backlight' set 10%-"), tecla)
+local N = S .. "nivel.sh "    -- hace el cambio y muestra el nivel en pantalla
+hl.bind("XF86AudioRaiseVolume",  sh(N .. "vol +"),     tecla)
+hl.bind("XF86AudioLowerVolume",  sh(N .. "vol -"),     tecla)
+hl.bind("XF86AudioMute",         sh(N .. "vol mudo"),  { locked = true })
+hl.bind("XF86AudioMicMute",      sh(N .. "mic mudo"),  { locked = true })
+hl.bind("XF86AudioPlay",         sh("playerctl play-pause"), { locked = true })
+hl.bind("XF86AudioNext",         sh("playerctl next"),       { locked = true })
+hl.bind("XF86AudioPrev",         sh("playerctl previous"),   { locked = true })
+hl.bind("XF86MonBrightnessUp",   sh(N .. "brillo +"),  tecla)
+hl.bind("XF86MonBrightnessDown", sh(N .. "brillo -"),  tecla)
+hl.bind("XF86KbdBrightnessUp",   sh(N .. "teclado +"), tecla)
+hl.bind("XF86KbdBrightnessDown", sh(N .. "teclado -"), tecla)
 -- el MacBook Air no trae teclas para la luz del teclado: Super + las de brillo
-hl.bind(M .. " + XF86MonBrightnessUp",   sh("brightnessctl --device='*kbd_backlight' set 10%+"),
+hl.bind(M .. " + XF86MonBrightnessUp",   sh(N .. "teclado +"),
         { locked = true, repeating = true, description = "luz del teclado: subir" })
-hl.bind(M .. " + XF86MonBrightnessDown", sh("brightnessctl --device='*kbd_backlight' set 10%-"),
+hl.bind(M .. " + XF86MonBrightnessDown", sh(N .. "teclado -"),
         { locked = true, repeating = true, description = "luz del teclado: bajar" })
 
 -- sesion

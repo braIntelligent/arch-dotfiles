@@ -3,7 +3,7 @@
 Configuración de mi escritorio en Arch Linux ARM (aarch64), en dos variantes con los mismos atajos, barra, menús y temas:
 
 - **bspwm (X11):** bspwm, sxhkd, polybar, picom, rofi y kitty. Es la que uso en una máquina virtual de VMware Fusion.
-- **Hyprland (Wayland):** Hyprland, waybar, rofi 2, kitty, mako (notificaciones) e hypridle (bloqueo por inactividad). Pensada para instalar en un equipo real con Asahi ALARM.
+- **Hyprland (Wayland):** Hyprland, waybar, rofi 2, kitty, mako (notificaciones), hypridle (bloqueo por inactividad), hyprsunset (luz nocturna) y KDE Connect. Pensada para instalar en un equipo real con Asahi ALARM.
 
 ## Instalar la variante Hyprland
 
@@ -18,7 +18,7 @@ sh hypr/instalar.sh
 
 El script instala los paquetes, compila rofi 2 (los repositorios traen la 1.7.5, que no funciona en Wayland), copia la configuración y deja Hyprland arrancando al iniciar sesión en la primera consola. Detecta si corre en una máquina virtual y aplica los ajustes que eso requiere; se puede forzar con `--vm` o `--nativo`.
 
-Está probado en una máquina virtual de VMware Fusion. En un equipo real todavía no.
+Está probado en una máquina virtual de VMware Fusion y en un MacBook Air M1 con Asahi ALARM.
 
 ### Desde Asahi ALARM Minimal recién instalado
 
@@ -49,7 +49,8 @@ Para limitar la carga de la batería al 80 % en un Mac (alarga su vida útil si 
 | `hypr/` | Variante Hyprland: configuración, barra, menús y el instalador |
 | `bspwm-scripts/`, `sxhkd/`, `polybar/`, `picom/`, `rofi/` | Variante bspwm |
 | `kitty/`, `zsh/`, `themes/` | Compartido por ambas |
-| `scripts/` | Instalación de herramientas, ajustes puntuales de la máquina virtual y el límite de carga del Mac |
+| `scripts/` | Instalación de herramientas (BlackArch, NvChad, LocalSend) y el límite de carga del Mac |
+| `scripts/vm/` | Ajustes puntuales de la máquina virtual |
 
 ## Atajos principales
 
@@ -68,3 +69,5 @@ Para limitar la carga de la batería al 80 % en un Mac (alarga su vida útil si 
 | `Super + Shift + b` | Cambiar la barra: normal (métricas) o HTB (IP, VPN y target) |
 | `Super + g` | Bluetooth (emparejar y conectar) |
 | `Super + Shift + n` | Cerrar las notificaciones |
+| `Super + Shift + v` | Historial del portapapeles |
+| Tres dedos hacia los lados | Cambiar de escritorio |

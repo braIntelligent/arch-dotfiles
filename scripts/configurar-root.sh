@@ -33,8 +33,8 @@ typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=196
 typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
 typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='#'
 
-# target de la polybar: escribe en el archivo del usuario para que la barra lo vea
-_target_file=@UH@/.config/polybar/target
+# target de la barra: escribe en el archivo del usuario para que la barra lo vea
+_target_file=@TF@
 settarget() {
     if [ -z "$1" ]; then
         echo "uso: settarget <ip> [nombre]"
@@ -48,7 +48,10 @@ cleartarget() {
     chown @U@: $_target_file
 }
 ROOT
-sed -i "s|@UH@|$uh|g; s|@U@|$u|g" /root/.zshrc
+# la barra de Hyprland lee el target de su propia carpeta; la de bspwm, de la de polybar
+tf="$uh/.config/polybar/target"
+[ -d "$uh/.config/hypr" ] && tf="$uh/.config/hypr/target"
+sed -i "s|@TF@|$tf|g; s|@U@|$u|g" /root/.zshrc
 
 chown -R root:root /root/powerlevel10k /root/.p10k.zsh /root/.zshrc
 chsh -s /usr/bin/zsh root >/dev/null
