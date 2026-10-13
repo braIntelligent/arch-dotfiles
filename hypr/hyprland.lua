@@ -56,6 +56,14 @@ hl.config({
     input = {
         kb_layout    = "latam",
         follow_mouse = 1,
+        -- desplazamiento: "natural" es el sentido del Mac (el contenido sigue a los dedos).
+        -- scroll_factor es la velocidad: 1.0 normal, menos es mas lento, mas es mas rapido.
+        natural_scroll = true,          -- mouse
+        scroll_factor  = 1.0,
+        touchpad = {
+            natural_scroll = true,      -- trackpad
+            scroll_factor  = 1.0,
+        },
     },
     ecosystem = { no_update_news = true, no_donation_nag = true },
 })
@@ -230,6 +238,11 @@ hl.bind("XF86MonBrightnessUp",   sh("brightnessctl -e4 -n2 set 5%+"),           
 hl.bind("XF86MonBrightnessDown", sh("brightnessctl -e4 -n2 set 5%-"),                  tecla)
 hl.bind("XF86KbdBrightnessUp",   sh("brightnessctl --device='*kbd_backlight' set 10%+"), tecla)
 hl.bind("XF86KbdBrightnessDown", sh("brightnessctl --device='*kbd_backlight' set 10%-"), tecla)
+-- el MacBook Air no trae teclas para la luz del teclado: Super + las de brillo
+hl.bind(M .. " + XF86MonBrightnessUp",   sh("brightnessctl --device='*kbd_backlight' set 10%+"),
+        { locked = true, repeating = true, description = "luz del teclado: subir" })
+hl.bind(M .. " + XF86MonBrightnessDown", sh("brightnessctl --device='*kbd_backlight' set 10%-"),
+        { locked = true, repeating = true, description = "luz del teclado: bajar" })
 
 -- sesion
 hl.bind(M .. " + R", sh("hyprctl reload"), { description = "recargar la configuracion" })

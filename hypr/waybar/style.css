@@ -13,8 +13,9 @@ window#waybar {
     border-radius: 12px;
 }
 #custom-arch { color: @accent; font-size: 18px; padding: 0 14px 0 18px; }
-#custom-ip, #custom-vpn, #custom-target, #cpu, #memory { padding: 0 10px; }
-#memory { padding-right: 18px; }
+#custom-ip, #custom-vpn, #custom-target, #cpu, #memory,
+#backlight, #wireplumber, #network, #battery, #clock { padding: 0 10px; }
+#clock { padding-right: 18px; }
 
 #workspaces button { padding: 0 5px; background: transparent; color: @magenta; border-radius: 0; }
 #workspaces button.empty  { color: @dim; }

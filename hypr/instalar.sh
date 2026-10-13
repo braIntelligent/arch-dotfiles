@@ -63,6 +63,10 @@ if [ "$MODO" = nativo ] && pacman -Si asahi-desktop-meta >/dev/null 2>&1; then
     sudo pacman -S --needed --noconfirm asahi-desktop-meta
 fi
 
+# El audio parte solo desde el proximo inicio de sesion; esto lo deja andando ya,
+# sin tener que salir (si no, las teclas de volumen no hacen nada hasta reiniciar).
+systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service 2>/dev/null || true
+
 # ---------------------------------------------------------------- rofi 2
 # Los repositorios traen rofi 1.7.5, que solo funciona en X11. La version 2 es
 # nativa de Wayland; se compila e instala en /usr/local.
