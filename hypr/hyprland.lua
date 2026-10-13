@@ -219,6 +219,18 @@ hl.bind(M .. " + Z", tecla_mac("CTRL", "z"), { description = "deshacer" })
 hl.bind(M .. " + SHIFT + Z", tecla_mac("CTRL SHIFT", "z"), { description = "rehacer" })
 hl.bind(M .. " + BackSpace", tecla_mac("SHIFT", "Home", "CTRL", "u"), { description = "borrar la linea" })
 
+-- teclas de funcion del portatil: volumen, brillo de pantalla y del teclado.
+-- "locked" las deja funcionar con la pantalla bloqueada; "repeating", al mantenerlas.
+local tecla = { locked = true, repeating = true }
+hl.bind("XF86AudioRaiseVolume",  sh("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), tecla)
+hl.bind("XF86AudioLowerVolume",  sh("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      tecla)
+hl.bind("XF86AudioMute",         sh("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true })
+hl.bind("XF86AudioMicMute",      sh("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true })
+hl.bind("XF86MonBrightnessUp",   sh("brightnessctl -e4 -n2 set 5%+"),                  tecla)
+hl.bind("XF86MonBrightnessDown", sh("brightnessctl -e4 -n2 set 5%-"),                  tecla)
+hl.bind("XF86KbdBrightnessUp",   sh("brightnessctl --device='*kbd_backlight' set 10%+"), tecla)
+hl.bind("XF86KbdBrightnessDown", sh("brightnessctl --device='*kbd_backlight' set 10%-"), tecla)
+
 -- sesion
 hl.bind(M .. " + R", sh("hyprctl reload"), { description = "recargar la configuracion" })
 hl.bind(M .. " + Q", sh(S .. "salir.sh"),  { description = "salir de Hyprland (pide confirmacion)" })

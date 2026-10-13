@@ -52,6 +52,7 @@ sudo pacman -S --needed --noconfirm \
     hyprland waybar hyprlock swaybg xorg-xwayland \
     kitty firefox \
     wl-clipboard grim slurp wtype jq libnotify \
+    pipewire pipewire-pulse wireplumber brightnessctl \
     zsh zsh-autosuggestions zsh-syntax-highlighting fzf lsd bat \
     ttf-hack-nerd noto-fonts-emoji \
     neovim git curl wget
