@@ -29,7 +29,7 @@ aviso() { printf '    %s\n' "$1"; }
 
 [ "$(id -u)" != 0 ] || { echo "corre este script como usuario normal, no como root"; exit 1; }
 command -v pacman >/dev/null || { echo "esto es para Arch Linux (no encuentro pacman)"; exit 1; }
-for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$COMUN/themes" "$COMUN/kitty" "$COMUN/qutebrowser" "$COMUN/zsh"; do
+for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$COMUN/themes" "$COMUN/kitty" "$COMUN/qutebrowser" "$COMUN/yazi" "$COMUN/zsh"; do
     [ -d "$d" ] || { echo "falta la carpeta $d: clona el repositorio completo"; exit 1; }
 done
 
@@ -65,7 +65,8 @@ paso "Actualizando el sistema e instalando paquetes"
 sudo pacman -Syu --noconfirm
 sudo pacman -S --needed --noconfirm \
     hyprland waybar hyprlock hypridle hyprsunset mako swaybg xorg-xwayland \
-    kitty qutebrowser mpv mpv-mpris yt-dlp nodejs imv zathura zathura-pdf-mupdf thunar tumbler \
+    kitty qutebrowser python-adblock mpv mpv-mpris yt-dlp nodejs imv zathura zathura-pdf-mupdf thunar tumbler \
+    yazi poppler imagemagick 7zip fd ripgrep zoxide \
     wl-clipboard cliphist grim slurp wf-recorder wtype jq libnotify \
     hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk xdg-utils \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
@@ -149,6 +150,9 @@ for f in "$AQUI"/rofi/*.rasi; do
 done
 poner "$COMUN/kitty/kitty.conf" "$C/kitty/kitty.conf"
 poner "$COMUN/qutebrowser/config.py" "$C/qutebrowser/config.py"
+for f in "$COMUN"/qutebrowser/greasemonkey/*.js; do poner "$f" "$C/qutebrowser/greasemonkey/$(basename "$f")"; done
+for f in yazi.toml keymap.toml package.toml; do poner "$COMUN/yazi/$f" "$C/yazi/$f"; done
+ya pkg install >/dev/null 2>&1 || aviso "no se pudo bajar el complemento de yazi; despues: ya pkg install"
 [ -f "$C/kitty/color.ini" ] || install -Dm644 "$COMUN/kitty/color.ini" "$C/kitty/color.ini"
 
 # Ajustes propios de este equipo. Se crea una sola vez y despues no se toca:

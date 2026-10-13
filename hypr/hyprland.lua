@@ -177,7 +177,8 @@ local sh = hl.dsp.exec_cmd
 hl.bind(M .. " + Return", sh(terminal),  { description = "terminal" })
 hl.bind(M .. " + space",  sh("pkill -x rofi || rofi -show run"), { description = "lanzador (la misma tecla lo cierra)" })
 hl.bind(M .. " + N",      sh("qutebrowser"), { description = "navegador (qutebrowser)" })
-hl.bind(M .. " + SHIFT + F", sh("thunar"), { description = "archivos" })
+-- yazi se maneja con el teclado; thunar (con ventana y mouse) sigue en el lanzador
+hl.bind(M .. " + SHIFT + F", sh(terminal .. " --class archivos -e yazi"), { description = "archivos (yazi)" })
 
 -- menus. En Wayland la tecla la recibe Hyprland y no rofi, asi que el "cerrar con la
 -- misma tecla" se hace aqui: si hay un rofi abierto se cierra; si no, se abre el menu.

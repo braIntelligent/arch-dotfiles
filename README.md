@@ -136,6 +136,7 @@ No vienen incluidos. Las imágenes van en `~/Pictures/wallpapers` y se eligen co
 | `Super + Shift + S` | Menú de capturas y grabación |
 | `Super + Shift + M` | Música de YouTube, solo audio |
 | `Super + Shift + O` | VPN del laboratorio (OpenVPN) |
+| `Super + Shift + F` | Archivos con teclado (yazi); `Espacio` agranda la vista previa |
 | `Super + Shift + X` | Bloquear |
 | `Super + Shift + E` | Apagar, reiniciar, suspender |
 | Tres dedos hacia los lados | Cambiar de escritorio |

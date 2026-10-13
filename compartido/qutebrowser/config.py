@@ -11,6 +11,12 @@ c.colors.webpage.preferred_color_scheme = "dark"    # pide a los sitios su versi
 c.tabs.padding = {"top": 5, "bottom": 5, "left": 9, "right": 9}
 c.statusbar.padding = {"top": 4, "bottom": 4, "left": 6, "right": 6}
 
+# Bloqueo de anuncios: listas de dominios mas el motor de Brave (paquete python-adblock).
+# Las listas se bajan una vez desde el navegador con  :adblock-update
+# Los anuncios de video de YouTube los salta greasemonkey/youtube-anuncios.user.js
+c.content.blocking.enabled = True
+c.content.blocking.method = "auto"      # usa el motor de Brave si esta instalado
+
 # ,p  pasa el trafico por el proxy local (Caido o Burp en 127.0.0.1:8080) o lo saca.
 # Vale hasta cerrar el navegador. El certificado: extras/certificado-proxy.sh
 config.bind(",p", "config-cycle -p -t content.proxy http://127.0.0.1:8080 system")

@@ -1,0 +1,8 @@
+# Complementos de yazi, con la version fijada. Se instalan con: ya pkg install
+[[plugin.deps]]
+use = "yazi-rs/plugins:toggle-pane"
+rev = "603fa36"
+hash = "5b2fbef7d1513ce38ff72623a071a5e"
+
+[flavor]
+deps = []

@@ -22,4 +22,12 @@ else
     echo 'SUBSYSTEM=="power_supply", KERNEL=="macsmc-battery", ATTR{charge_control_end_threshold}="80"' > "$regla"
 fi
 echo "$lim" > "$attr"
+# la barra muestra el limite como 100 %: se rehace con el valor nuevo
+u=${SUDO_USER:-}
+if [ -n "$u" ]; then
+    uh=$(getent passwd "$u" | cut -d: -f6)
+    tema=$(cat "$uh/.cache/theme" 2>/dev/null || true)
+    [ -x "$uh/.config/hypr/scripts/set-theme.sh" ] && [ -n "$tema" ] \
+        && sudo -u "$u" -H "$uh/.config/hypr/scripts/set-theme.sh" "$tema" >/dev/null 2>&1 || true
+fi
 echo "listo: limite de carga en $(cat "$attr") %"

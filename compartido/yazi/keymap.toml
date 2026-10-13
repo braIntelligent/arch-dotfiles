@@ -1,0 +1,6 @@
+# Espacio: vista previa a pantalla completa y vuelta, como el Quick Look del Mac.
+# (Para marcar varios archivos, que era lo que hacia Espacio: v y despues moverse.)
+[[mgr.prepend_keymap]]
+on   = "<Space>"
+run  = "plugin toggle-pane max-preview"
+desc = "Agrandar la vista previa o volver"

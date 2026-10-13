@@ -1,0 +1,15 @@
+# yazi: explorador de archivos que se maneja con el teclado, con vista previa.
+# Teclas: h j k l (o flechas) se mueven, Enter abre, Espacio agranda la vista previa,
+# / busca, y copia, x corta, p pega, d manda a la papelera, r renombra, a crea,
+# . muestra los ocultos, z salta a una carpeta, q cierra. La lista completa: ~ o F1.
+
+[mgr]
+ratio          = [1, 3, 4]      # carpeta de arriba, lista, vista previa
+sort_by        = "natural"
+sort_dir_first = true
+show_hidden    = false
+show_symlink   = true
+
+[preview]
+max_width  = 1600
+max_height = 1600

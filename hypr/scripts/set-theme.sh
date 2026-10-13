@@ -59,11 +59,15 @@ for d in /sys/class/power_supply/*; do
     bateria=$(basename "$d"); break
 done
 panel=$(ls /sys/class/backlight 2>/dev/null | head -n1)
+# con limite de carga (extras/limite-carga.sh), la barra muestra ese tope como 100 %
+carga_max=$(cat "/sys/class/power_supply/$bateria/charge_control_end_threshold" 2>/dev/null)
+[ "${carga_max:-100}" -lt 100 ] 2>/dev/null || carga_max=""
 sed -e "s/@blue@/$blue/g" -e "s/@cyan@/$cyan/g" -e "s/@green@/$green/g" \
     -e "s/@yellow@/$yellow/g" -e "s/@magenta@/$magenta/g" -e "s/@red@/$red/g" \
     -e "s/@dim@/$dim/g" \
     -e "s/@bateria@/${bateria:-@bateria@}/g" -e "/@bateria@/d" \
     -e "s/@panel@/${panel:-@panel@}/g" -e "/@panel@/d" \
+    -e "s/@carga_max@/${carga_max:-@carga_max@}/g" -e "/@carga_max@/d" \
     "$HOME/.config/waybar/modulos.plantilla.jsonc" > "$HOME/.config/waybar/modulos.jsonc"
 
 # --- rofi ---

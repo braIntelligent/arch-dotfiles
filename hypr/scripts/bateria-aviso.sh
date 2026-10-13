@@ -12,6 +12,9 @@ done
 avisado=100
 while :; do
     cap=$(cat "$B/capacity")
+    # con limite de carga, el tope cuenta como 100 %, igual que en la barra
+    tope=$(cat "$B/charge_control_end_threshold" 2>/dev/null)
+    [ "${tope:-100}" -lt 100 ] 2>/dev/null && cap=$(( cap * 100 / tope ))
     if [ "$(cat "$B/status")" != Discharging ]; then
         avisado=100
     elif [ "$cap" -le 10 ] && [ "$avisado" -gt 10 ]; then

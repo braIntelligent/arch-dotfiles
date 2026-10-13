@@ -61,6 +61,7 @@
 
     "battery": {
         "bat": "@bateria@",
+        "full-at": @carga_max@,
         "interval": 30,
         "states": { "warning": 25, "critical": 10 },
         "format": "<span color='@green@'>{icon}</span>  {capacity}%",
