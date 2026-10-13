@@ -4,6 +4,12 @@
 {
     // clic en el logo: cambia entre la barra normal y la de HTB
     "custom/arch": { "format": "", "tooltip": false, "on-click": "~/.config/hypr/scripts/barra.sh cambiar" },
+    // aparece solo mientras se graba la pantalla; clic: detener
+    "custom/grabando": {
+        "exec": "~/.config/waybar/scripts/grabando.sh",
+        "interval": "once", "signal": 8, "tooltip": false,
+        "on-click": "~/.config/hypr/scripts/grabar.sh"
+    },
     "custom/ip":     { "exec": "~/.config/waybar/scripts/ip.sh",     "interval": 2, "tooltip": false },
     "custom/vpn":    { "exec": "~/.config/waybar/scripts/vpn.sh",    "interval": 2, "tooltip": false },
     "custom/target": { "exec": "~/.config/waybar/scripts/target.sh", "interval": 2, "tooltip": false },

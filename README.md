@@ -70,4 +70,6 @@ Para limitar la carga de la batería al 80 % en un Mac (alarga su vida útil si 
 | `Super + g` | Bluetooth (emparejar y conectar) |
 | `Super + Shift + n` | Cerrar las notificaciones |
 | `Super + Shift + v` | Historial del portapapeles |
+| `Super + Shift + s` | Menú de capturas y grabación |
+| `Super + Shift + g` | Grabar la pantalla; otra vez para detener |
 | Tres dedos hacia los lados | Cambiar de escritorio |

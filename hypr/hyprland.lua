@@ -168,12 +168,14 @@ hl.bind(M .. " + SHIFT + D", menu("cheatsheet.sh"),     { description = "hoja de
 hl.bind(M .. " + SHIFT + B", sh(S .. "barra.sh cambiar"), { description = "barra: normal / HTB" })
 hl.bind(M .. " + G",         sh(S .. "bluetooth.sh"),     { description = "bluetooth (la misma tecla lo cierra)" })
 hl.bind(M .. " + SHIFT + N", sh("makoctl dismiss -a"),    { description = "cerrar las notificaciones" })
+hl.bind(M .. " + SHIFT + G", sh(S .. "grabar.sh"),        { description = "grabar la pantalla / detener" })
 hl.bind(M .. " + SHIFT + V", menu("portapapeles.sh"),   { description = "historial del portapapeles" })
 hl.bind(M .. " + SHIFT + R", menu("configs.sh"),        { description = "editar configs" })
 hl.bind(M .. " + SHIFT + I", menu("keyboard.sh"),       { description = "distribucion de teclado" })
 hl.bind(M .. " + B",         sh("pkill -USR1 -x waybar"),  { description = "ocultar/mostrar la barra" })
 hl.bind(M .. " + P",         sh(S .. "captura.sh zona"),     { description = "captura de zona" })
 hl.bind(M .. " + SHIFT + P", sh(S .. "captura.sh pantalla"), { description = "captura de pantalla completa" })
+hl.bind(M .. " + SHIFT + S", menu("screenshot.sh"),          { description = "menu de capturas y grabacion" })
 hl.bind(M .. " + SHIFT + X", sh(S .. "lock.sh"),           { description = "bloquear pantalla" })
 
 -- ventanas

@@ -51,7 +51,7 @@ sudo pacman -Syu --noconfirm
 sudo pacman -S --needed --noconfirm \
     hyprland waybar hyprlock hypridle hyprsunset mako swaybg xorg-xwayland \
     kitty firefox \
-    wl-clipboard cliphist grim slurp wtype jq libnotify \
+    wl-clipboard cliphist grim slurp wf-recorder wtype jq libnotify \
     hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
     bluez bluez-utils bluetui kdeconnect \
@@ -144,7 +144,7 @@ fi
 
 # ---------------------------------------------------------------- fondos
 paso "Fondos de pantalla"
-mkdir -p "$HOME/Pictures/wallpapers" "$HOME/Pictures/capturas"
+mkdir -p "$HOME/Pictures/wallpapers" "$HOME/Pictures/capturas" "$HOME/Videos/grabaciones"
 if [ -d "$RAIZ/wallpapers" ]; then
     for f in "$RAIZ"/wallpapers/*; do
         [ -f "$f" ] && [ ! -f "$HOME/Pictures/wallpapers/$(basename "$f")" ] && cp "$f" "$HOME/Pictures/wallpapers/"

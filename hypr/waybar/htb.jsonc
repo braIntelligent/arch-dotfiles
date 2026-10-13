@@ -12,5 +12,5 @@
 
     "modules-left":   ["custom/arch", "custom/ip", "custom/vpn"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right":  ["custom/target", "battery", "clock"]
+    "modules-right":  ["custom/grabando", "custom/target", "battery", "clock"]
 }
