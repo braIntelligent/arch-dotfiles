@@ -65,7 +65,7 @@ paso "Actualizando el sistema e instalando paquetes"
 sudo pacman -Syu --noconfirm
 sudo pacman -S --needed --noconfirm \
     hyprland waybar hyprlock hypridle hyprsunset mako swaybg xorg-xwayland \
-    kitty firefox qutebrowser mpv mpv-mpris yt-dlp nodejs imv zathura zathura-pdf-mupdf thunar tumbler \
+    kitty qutebrowser mpv mpv-mpris yt-dlp nodejs imv zathura zathura-pdf-mupdf thunar tumbler \
     wl-clipboard cliphist grim slurp wf-recorder wtype jq libnotify \
     hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk xdg-utils \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
@@ -192,6 +192,7 @@ for t in video/mp4 video/x-matroska video/webm video/quicktime; do xdg-mime defa
 for t in image/png image/jpeg image/webp image/gif; do xdg-mime default imv-dir.desktop "$t"; done
 xdg-mime default thunar.desktop inode/directory
 xdg-mime default org.pwmt.zathura.desktop application/pdf
+xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop 2>/dev/null || true
 
 # yt-dlp al dia para la musica de YouTube (la version de los repositorios queda vieja)
 sh "$RAIZ/extras/actualizar-yt-dlp.sh" || aviso "no se pudo actualizar yt-dlp; despues: sh extras/actualizar-yt-dlp.sh"

@@ -146,7 +146,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd(S .. "aplicar-fondo.sh")
     hl.exec_cmd(S .. "barra.sh")
     hl.exec_cmd("mako")        -- notificaciones
-    -- modo oscuro para Firefox y las aplicaciones GTK. set-theme.sh tambien lo pide,
+    -- modo oscuro para los navegadores y las aplicaciones GTK. set-theme.sh tambien lo pide,
     -- pero si la instalacion se hizo sin sesion grafica ese ajuste no quedo guardado
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme prefer-dark")
     hl.exec_cmd("hypridle")    -- bloqueo y apagado de pantalla por inactividad
@@ -167,9 +167,8 @@ local sh = hl.dsp.exec_cmd
 -- lanzadores
 hl.bind(M .. " + Return", sh(terminal),  { description = "terminal" })
 hl.bind(M .. " + space",  sh("pkill -x rofi || rofi -show run"), { description = "lanzador (la misma tecla lo cierra)" })
-hl.bind(M .. " + N",      sh("firefox"), { description = "navegador" })
+hl.bind(M .. " + N",      sh("qutebrowser"), { description = "navegador (qutebrowser)" })
 hl.bind(M .. " + SHIFT + F", sh("thunar"), { description = "archivos" })
-hl.bind(M .. " + SHIFT + Q", sh("qutebrowser"), { description = "navegador liviano (qutebrowser)" })
 
 -- menus. En Wayland la tecla la recibe Hyprland y no rofi, asi que el "cerrar con la
 -- misma tecla" se hace aqui: si hay un rofi abierto se cierra; si no, se abre el menu.

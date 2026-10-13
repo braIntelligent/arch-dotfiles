@@ -137,7 +137,7 @@ cat > "$HOME/.config/hypr/hyprlock-colores.conf" <<EOT
 EOT
 
 # --- aplicaciones GTK y Qt: oscuras y con los colores del tema ---
-# (dialogos de archivo, LocalSend, KDE Connect; Firefox toma de aqui el modo oscuro)
+# (dialogos de archivo, LocalSend, KDE Connect; los navegadores toman de aqui el modo oscuro)
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null
 # el tema es "Adwaita" a secas: "Adwaita-dark" no viene con GTK y lo dejaria claro
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita 2>/dev/null
