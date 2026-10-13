@@ -17,7 +17,7 @@ Un escritorio en mosaico que se maneja entero con el teclado y se instala con un
 
 ## Por qué existe
 
-Empezó como una forma de aprender Arch a mano: una máquina virtual, una instalación desde cero y un escritorio bspwm que fui armando mientras entendía qué hacía cada comando. Cuando quedó como quería, lo llevé al equipo real, un MacBook Air M1, y ahí hubo que rehacerlo en Wayland.
+Empezó como una forma de aprender Arch a mano: una máquina virtual, una instalación desde cero y un escritorio bspwm que fui armando siguiendo el curso de [S4vitar](https://hack4u.io), mientras entendía qué hacía cada comando. Cuando quedó como quería, lo llevé al equipo real, un MacBook Air M1, y ahí hubo que rehacerlo en Wayland.
 
 Lo uso a diario para estudiar ciberseguridad, y se nota en los detalles: la barra tiene un modo de laboratorio con la IP, la VPN y la máquina objetivo siempre a la vista.
 
@@ -189,6 +189,7 @@ Si lo pruebas en otro Mac (un M2, un Pro con pantalla de 120 Hz, un equipo de es
 ## Créditos
 
 - [Asahi Linux](https://asahilinux.org) y [Asahi ALARM](https://asahi-alarm.org), que hacen posible Linux en estos equipos.
+- [S4vitar](https://github.com/s4vitar) y su academia [Hack4u](https://hack4u.io): el curso de personalización de Linux que iba siguiendo es el punto de partida de este escritorio.
 - [gh0stzk](https://github.com/gh0stzk/dotfiles), cuyos diseños de menús inspiraron los de este repositorio.
 
 ## Licencia
