@@ -56,6 +56,12 @@ sudo pacman -S --needed --noconfirm \
     ttf-hack-nerd noto-fonts-emoji \
     neovim git curl wget
 
+# En un Mac con Asahi, este paquete trae lo propio del equipo para un escritorio
+# (audio de los parlantes, teclas de funcion, etc.). Solo existe en el repositorio de ALARM.
+if [ "$MODO" = nativo ] && pacman -Si asahi-desktop-meta >/dev/null 2>&1; then
+    sudo pacman -S --needed --noconfirm asahi-desktop-meta
+fi
+
 # ---------------------------------------------------------------- rofi 2
 # Los repositorios traen rofi 1.7.5, que solo funciona en X11. La version 2 es
 # nativa de Wayland; se compila e instala en /usr/local.

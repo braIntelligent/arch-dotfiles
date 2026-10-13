@@ -20,6 +20,24 @@ El script instala los paquetes, compila rofi 2 (los repositorios traen la 1.7.5,
 
 Está probado en una máquina virtual de VMware Fusion. En un equipo real todavía no.
 
+### Desde Asahi ALARM Minimal recién instalado
+
+La instalación mínima arranca en consola con el usuario `root` (clave `root`). Antes de correr el instalador hay que tener red y un usuario normal:
+
+```sh
+loadkeys la-latin1                                    # teclado latinoamericano en la consola
+nmcli device wifi connect "NOMBRE_RED" password "CLAVE"
+pacman -Syu git
+
+useradd -m -G wheel -s /bin/bash USUARIO
+passwd USUARIO
+passwd                                                # cambiar la clave de root
+EDITOR=vim visudo                                     # quitar el # de la linea "%wheel ALL=(ALL:ALL) ALL"
+exit
+```
+
+Después se inicia sesión con ese usuario y se siguen los pasos de arriba (`git clone` y `sh hypr/instalar.sh`).
+
 Los fondos de pantalla no vienen incluidos: van en `~/Pictures/wallpapers`.
 
 ## Carpetas
