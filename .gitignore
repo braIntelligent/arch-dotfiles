@@ -1,0 +1,10 @@
+# material que no se publica
+guia/
+wallpapers/
+
+# respaldos y archivos del sistema
+*.tgz
+*.bak
+*.anterior
+*.antes-*
+.DS_Store

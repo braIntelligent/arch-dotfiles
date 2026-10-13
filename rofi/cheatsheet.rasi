@@ -1,0 +1,36 @@
+/* Panel de atajos en columnas con categorias (inspirado en el cheatsheet de gh0stzk).
+   cheatsheet.sh calcula columnas y lineas segun el ancho del monitor. */
+@import "colors.rasi"
+
+* { background-color: transparent; text-color: @fg; font: "Hack Nerd Font 9"; }
+window {
+    width: 92%;
+    location: center;
+    background-color: @bg;
+    border: 4px; border-color: @blue; border-radius: 24px;
+}
+mainbox {
+    padding: 40px 48px;
+    spacing: 24px;
+    children: [ message, inputbar, listview ];
+}
+textbox { horizontal-align: 0.5; }
+inputbar {
+    background-color: @bg-alt;
+    border-radius: 16px;
+    padding: 16px 28px;
+    spacing: 20px;
+    children: [ prompt, entry ];
+}
+prompt { text-color: @blue; }
+entry { placeholder: "Buscar atajo"; placeholder-color: @dim; }
+listview {
+    columns: 3;
+    lines: 16;
+    fixed-columns: true;
+    spacing: 4px;
+    scrollbar: false;
+}
+element { padding: 8px 16px; border-radius: 8px; }
+element-text { vertical-align: 0.5; }
+element selected { background-color: @bg-alt; }

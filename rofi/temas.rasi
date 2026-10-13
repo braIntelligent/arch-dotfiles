@@ -1,0 +1,67 @@
+/* Selector de temas con vista previa. Mismo diseno que row.rasi; solo cambian
+   las teclas del bloque configuration. Si se retoca row.rasi, copiar aqui. */
+configuration {
+    hover-select:    true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+    /* izquierda/derecha no mueven la seleccion: cierran el menu con un codigo
+       que theme-selector.sh usa para aplicar el tema vecino y reabrirlo */
+    kb-move-char-back:    "Control+b";
+    kb-move-char-forward: "Control+f";
+    kb-custom-1: "Right,l";
+    kb-custom-2: "Left,h";
+}
+
+/* valores por si colors.rasi aun no trae estos colores */
+* { green: #73daca; red: #f7768e; }
+@import "colors.rasi"
+
+* { background-color: transparent; text-color: @fg; font: "Hack Nerd Font 12"; }
+window {
+    width: 2000px;
+    location: center;
+    background-color: @bg;
+    border: 4px; border-color: @blue; border-radius: 28px;
+}
+mainbox {
+    spacing: 28px;
+    padding: 44px;
+    children: [ inputbar, message, listview ];
+}
+inputbar { spacing: 20px; children: [ textbox-prompt-colon, prompt ]; }
+textbox-prompt-colon {
+    expand: false;
+    str: "";
+    padding: 20px 32px 20px 28px;
+    border-radius: 16px;
+    background-color: @red;
+    text-color: @bg-alt;
+}
+prompt {
+    padding: 20px 28px;
+    border-radius: 16px;
+    background-color: @green;
+    text-color: @bg-alt;
+}
+message {
+    padding: 20px 28px;
+    border-radius: 16px;
+    background-color: @bg-alt;
+}
+textbox { text-color: @fg; }
+listview {
+    layout: vertical;
+    columns: 5;
+    lines: 1;
+    fixed-columns: true;
+    cycle: true;
+    spacing: 24px;
+    scrollbar: false;
+}
+element {
+    padding: 52px 12px;
+    border: 2px; border-color: @blue; border-radius: 20px;
+    background-color: @bg;
+}
+element-text { horizontal-align: 0.5; vertical-align: 0.5; text-color: inherit; }
+element selected { background-color: @blue; text-color: @bg-alt; }

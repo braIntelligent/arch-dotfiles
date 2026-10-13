@@ -1,0 +1,22 @@
+@import "colors.css";
+
+* {
+    font-family: "Hack Nerd Font";
+    font-size: 14px;
+    min-height: 0;
+    border: none;
+    box-shadow: none;
+}
+window#waybar {
+    background: alpha(@bg, 0.85);
+    color: @fg;
+    border-radius: 12px;
+}
+#custom-arch { color: @accent; font-size: 18px; padding: 0 14px 0 18px; }
+#custom-ip, #custom-vpn, #custom-target, #cpu, #memory { padding: 0 10px; }
+#memory { padding-right: 18px; }
+
+#workspaces button { padding: 0 5px; background: transparent; color: @magenta; border-radius: 0; }
+#workspaces button.empty  { color: @dim; }
+#workspaces button.active { color: @accent; }
+#workspaces button:hover  { background: transparent; }

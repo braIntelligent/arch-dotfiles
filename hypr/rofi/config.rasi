@@ -1,0 +1,12 @@
+configuration {
+    modi: "drun,run,window";
+    show-icons: false;
+    font: "Hack Nerd Font 12";
+    display-drun: "";
+    display-run: "";
+    display-window: "";
+    drun-display-format: "{name}";
+    kb-cancel: "Escape,Super+space,Super+e";
+}
+
+@theme "tokyonight"

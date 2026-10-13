@@ -1,0 +1,79 @@
+@import "colors.rasi"
+
+/* Tokyo Night para rofi, a juego con kitty y polybar */
+
+* {
+    background-color: transparent;
+    text-color:       @fg;
+    margin:           0;
+    padding:          0;
+    spacing:          0;
+}
+
+window {
+    width:            1120px;
+    background-color: @bg;
+    border:           4px;
+    border-color:     @blue;
+    border-radius:    20px;
+}
+
+mainbox {
+    padding:  28px;
+    spacing:  24px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius:    16px;
+    padding:          20px 28px;
+    spacing:          24px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color: @blue;
+}
+
+entry {
+    placeholder:       "Buscar";
+    placeholder-color: @dim;
+}
+
+listview {
+    lines:        8;
+    columns:      1;
+    fixed-height: true;
+    spacing:      8px;
+    scrollbar:    false;
+}
+
+element {
+    padding:       16px 24px;
+    spacing:       20px;
+    border-radius: 16px;
+}
+
+element normal.normal,
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+element selected.normal {
+    background-color: @bg-alt;
+    text-color:       @blue;
+}
+
+element-icon {
+    size:             44px;
+    vertical-align:   0.5;
+    background-color: transparent;
+}
+
+element-text {
+    vertical-align:   0.5;
+    text-color:       inherit;
+    background-color: transparent;
+}

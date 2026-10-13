@@ -1,0 +1,31 @@
+configuration {
+    /* moverse con h j k l ademas de las flechas */
+    kb-row-left:  "Control+Page_Up,h";
+    kb-row-right: "Control+Page_Down,l";
+    kb-row-up:    "Up,Control+p,k";
+    kb-row-down:  "Down,Control+n,j";
+}
+
+@import "colors.rasi"
+
+* { background-color: transparent; text-color: @fg; }
+window {
+    width: 440px;
+    background-color: @bg;
+    border: 2px; border-color: @blue; border-radius: 14px;
+    padding: 22px; location: center;
+}
+mainbox { children: [ inputbar, listview ]; spacing: 14px; }
+inputbar { background-color: @bg-alt; border-radius: 8px; padding: 10px 14px; children: [ prompt ]; }
+prompt { text-color: @blue; horizontal-align: 0.5; }
+listview {
+    layout: vertical;
+    columns: 2;
+    lines: 1;
+    fixed-columns: false;
+    spacing: 12px;
+    scrollbar: false;
+}
+element { padding: 14px 0px; border-radius: 10px; }
+element-text { horizontal-align: 0.5; vertical-align: 0.5; }
+element selected { background-color: @bg-alt; text-color: @blue; }

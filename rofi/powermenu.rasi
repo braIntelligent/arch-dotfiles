@@ -1,0 +1,21 @@
+@import "colors.rasi"
+
+* { background-color: transparent; text-color: @fg; }
+window {
+    width: 1240px;
+    background-color: @bg;
+    border: 4px; border-color: @blue; border-radius: 32px;
+    padding: 56px; location: center;
+}
+mainbox { children: [ listview ]; }
+listview { layout: horizontal; columns: 5; lines: 1; spacing: 28px; }
+element {
+    orientation: vertical;
+    padding: 44px 28px;
+    border-radius: 28px;
+}
+element-text {
+    horizontal-align: 0.5;
+    font: "Hack Nerd Font 26";
+}
+element selected { background-color: @bg-alt; text-color: @blue; }

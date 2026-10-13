@@ -1,0 +1,7 @@
+/* Colores del tema activo. Lo reescribe set-theme.sh */
+@define-color bg      #1a1b26;
+@define-color bg_alt  #24283b;
+@define-color fg      #c0caf5;
+@define-color dim     #565f89;
+@define-color accent  #7aa2f7;
+@define-color magenta #bb9af7;

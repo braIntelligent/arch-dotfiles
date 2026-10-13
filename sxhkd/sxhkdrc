@@ -1,0 +1,154 @@
+#
+# Lanzadores y sistema
+#
+
+# terminal
+super + Return
+	/usr/bin/kitty
+
+# lanzador (se cierra con la misma tecla, definido en rofi)
+super + space
+	rofi -show run
+
+# navegador
+super + n
+	firefox
+
+#
+# Edicion estilo Mac
+#
+# Van con @ (actuan al soltar la tecla): mientras la tecla esta apretada
+# sxhkd retiene el teclado y la pulsacion simulada no llega a la ventana.
+
+# copiar
+super + @c
+	~/.config/sxhkd/scripts/teclas-mac.sh copiar
+
+# pegar
+super + @v
+	~/.config/sxhkd/scripts/teclas-mac.sh pegar
+
+# cortar
+super + @x
+	~/.config/sxhkd/scripts/teclas-mac.sh cortar
+
+# seleccionar todo
+super + @a
+	~/.config/sxhkd/scripts/teclas-mac.sh todo
+
+# deshacer
+super + @z
+	~/.config/sxhkd/scripts/teclas-mac.sh deshacer
+
+# rehacer
+super + shift + @z
+	~/.config/sxhkd/scripts/teclas-mac.sh rehacer
+
+# borrar la linea completa
+super + @BackSpace
+	~/.config/sxhkd/scripts/teclas-mac.sh borrarlinea
+
+#
+# Capturas, bloqueo y menus
+#
+
+# captura: zona a archivo y portapapeles / pantalla completa a archivo
+super + {_,shift + }p
+	~/.config/sxhkd/scripts/captura.sh {zona,pantalla}
+
+# bloquear pantalla
+super + shift + x
+	~/.config/bspwm/scripts/lock.sh
+
+# terminal desplegable (scratchpad)
+super + d
+	~/.config/bspwm/scripts/scratchpad.sh
+
+# menu central (fondos, editar config, bloquear, salir)
+super + e
+	~/.config/bspwm/scripts/menu.sh
+
+# ocultar/mostrar la polybar
+super + b
+	~/.config/bspwm/scripts/toggle-bar.sh
+
+# menu de energia
+super + shift + e
+	~/.config/bspwm/scripts/powermenu.sh
+
+# fondos (wallpaper)
+super + shift + c
+	~/.config/bspwm/scripts/wallpaper.sh
+
+# temas (apariencia)
+super + shift + a
+	~/.config/bspwm/scripts/theme-selector.sh
+
+
+# atajos (cheat sheet)
+super + shift + d
+	~/.config/bspwm/scripts/cheatsheet.sh
+
+# editar configs (rice editor)
+super + shift + r
+	~/.config/bspwm/scripts/configs.sh
+
+# distribucion de teclado
+super + shift + i
+	~/.config/bspwm/scripts/keyboard.sh
+
+# recargar sxhkd
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#
+# bspwm
+#
+
+# reiniciar bspwm (no cierra las ventanas)
+super + r
+	bspc wm -r
+
+# salir de bspwm, pidiendo confirmacion
+super + q
+	~/.config/sxhkd/scripts/salir.sh
+
+# cerrar ventana / matarla a la fuerza
+super + {_,shift + }w
+	bspc node -{c,k}
+
+#
+# Ventanas
+#
+
+# estado de la ventana: mosaico, pseudo-mosaico, flotante, pantalla completa
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# foco / intercambio en una direccion
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# abrir una terminal a la izquierda / abajo / arriba / derecha
+super + {y,u,i,o}
+	bspc node -p {west,south,north,east}; /usr/bin/kitty
+
+# ocultar todas las ventanas del escritorio / traerlas de vuelta
+super + m
+	~/.config/bspwm/scripts/ocultar.sh
+
+# ir al escritorio / mandar la ventana al escritorio
+super + {_,shift + }{1-5}
+	bspc {desktop -f,node -d} '^{1-5}'
+
+#
+# Mover y redimensionar
+#
+
+# agrandar / achicar la ventana (derecha y abajo agrandan)
+super + shift + {Left,Down,Up,Right}
+	~/.config/sxhkd/scripts/redimensionar.sh {izquierda,abajo,arriba,derecha}
+
+# mover una ventana flotante
+super + {Left,Down,Up,Right}
+	bspc node -v {-40 0,0 40,0 -40,40 0}
