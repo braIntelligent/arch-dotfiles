@@ -253,6 +253,95 @@ set notification-error-bg "$red"
 set notification-error-fg "$bg"
 EOT
 
+# --- neovim ---
+# El fondo queda en NONE: se ve el de la terminal, que ya es el del tema.
+mkdir -p "$HOME/.config/nvim/colors"
+cat > "$HOME/.config/nvim/colors/tema.lua" <<EOT
+-- Colores del tema activo. Lo reescribe set-theme.sh
+vim.cmd("highlight clear")
+vim.g.colors_name = "tema"
+local c = {
+    bg = "$bg", bg_alt = "$bg_alt", fg = "$fg", dim = "$dim", accent = "$accent",
+    black = "$black", red = "$red", green = "$green", yellow = "$yellow",
+    blue = "$blue", magenta = "$magenta", cyan = "$cyan",
+}
+local function hl(grupo, opciones) vim.api.nvim_set_hl(0, grupo, opciones) end
+
+hl("Normal",       { fg = c.fg })
+hl("NormalNC",     { fg = c.fg })
+hl("NormalFloat",  { fg = c.fg, bg = c.bg_alt })
+hl("FloatBorder",  { fg = c.accent, bg = c.bg_alt })
+hl("SignColumn",   {})
+hl("EndOfBuffer",  { fg = c.bg_alt })
+hl("LineNr",       { fg = c.dim })
+hl("CursorLineNr", { fg = c.accent, bold = true })
+hl("CursorLine",   { bg = c.bg_alt })
+hl("ColorColumn",  { bg = c.bg_alt })
+hl("Visual",       { bg = c.black })
+hl("Search",       { fg = c.bg, bg = c.yellow })
+hl("IncSearch",    { fg = c.bg, bg = c.accent })
+hl("CurSearch",    { fg = c.bg, bg = c.accent })
+hl("MatchParen",   { fg = c.accent, bold = true, underline = true })
+hl("NonText",      { fg = c.dim })
+hl("Whitespace",   { fg = c.black })
+hl("Folded",       { fg = c.dim, bg = c.bg_alt })
+hl("WinSeparator", { fg = c.black })
+hl("Pmenu",        { fg = c.fg, bg = c.bg_alt })
+hl("PmenuSel",     { fg = c.bg, bg = c.accent })
+hl("PmenuSbar",    { bg = c.bg_alt })
+hl("PmenuThumb",   { bg = c.dim })
+hl("StatusLine",     { fg = c.fg, bg = c.bg_alt })
+hl("StatusLineNC",   { fg = c.dim, bg = c.bg_alt })
+hl("StatusLineModo", { fg = c.bg, bg = c.accent, bold = true })
+hl("TabLine",      { fg = c.dim, bg = c.bg_alt })
+hl("TabLineSel",   { fg = c.bg, bg = c.accent })
+hl("TabLineFill",  { bg = c.bg_alt })
+hl("Title",        { fg = c.accent, bold = true })
+hl("Directory",    { fg = c.blue })
+hl("Question",     { fg = c.green })
+hl("MoreMsg",      { fg = c.green })
+hl("ModeMsg",      { fg = c.fg, bold = true })
+hl("WarningMsg",   { fg = c.yellow })
+hl("ErrorMsg",     { fg = c.red })
+
+hl("Comment",    { fg = c.dim, italic = true })
+hl("Constant",   { fg = c.yellow })
+hl("String",     { fg = c.green })
+hl("Character",  { fg = c.green })
+hl("Number",     { fg = c.yellow })
+hl("Boolean",    { fg = c.yellow })
+hl("Identifier", { fg = c.fg })
+hl("Function",   { fg = c.blue })
+hl("Statement",  { fg = c.magenta })
+hl("Keyword",    { fg = c.magenta })
+hl("Operator",   { fg = c.cyan })
+hl("PreProc",    { fg = c.magenta })
+hl("Type",       { fg = c.cyan })
+hl("Special",    { fg = c.cyan })
+hl("Delimiter",  { fg = c.fg })
+hl("Underlined", { fg = c.blue, underline = true })
+hl("Todo",       { fg = c.bg, bg = c.yellow, bold = true })
+hl("Error",      { fg = c.red })
+hl("@variable",  { fg = c.fg })
+hl("@property",  { fg = c.fg })
+hl("@tag",       { fg = c.magenta })
+hl("@tag.attribute", { fg = c.yellow })
+
+hl("DiagnosticError", { fg = c.red })
+hl("DiagnosticWarn",  { fg = c.yellow })
+hl("DiagnosticInfo",  { fg = c.blue })
+hl("DiagnosticHint",  { fg = c.cyan })
+hl("DiagnosticUnderlineError", { undercurl = true, sp = c.red })
+hl("DiagnosticUnderlineWarn",  { undercurl = true, sp = c.yellow })
+hl("DiffAdd",    { fg = c.green })
+hl("DiffChange", { fg = c.yellow })
+hl("DiffDelete", { fg = c.red })
+hl("DiffText",   { fg = c.bg, bg = c.yellow })
+hl("Added",      { fg = c.green })
+hl("Changed",    { fg = c.yellow })
+hl("Removed",    { fg = c.red })
+EOT
+
 # --- qutebrowser ---
 mkdir -p "$HOME/.config/qutebrowser"
 cat > "$HOME/.config/qutebrowser/colores.py" <<EOT
@@ -338,5 +427,9 @@ printf '%s\n' "$theme" > "$HOME/.cache/theme"
 pkill -USR1 -x kitty 2>/dev/null
 pkill -USR2 -x waybar 2>/dev/null
 makoctl reload >/dev/null 2>&1
+# los Neovim abiertos toman el tema nuevo al momento
+for s in "${XDG_RUNTIME_DIR:-/tmp}"/nvim.*.0; do
+    [ -S "$s" ] && nvim --server "$s" --remote-send '<Cmd>colorscheme tema<CR>' >/dev/null 2>&1
+done
 pgrep -x qutebrowser >/dev/null && qutebrowser ':config-source' >/dev/null 2>&1 &
 hyprctl reload >/dev/null 2>&1 || true

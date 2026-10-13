@@ -29,7 +29,7 @@ aviso() { printf '    %s\n' "$1"; }
 
 [ "$(id -u)" != 0 ] || { echo "corre este script como usuario normal, no como root"; exit 1; }
 command -v pacman >/dev/null || { echo "esto es para Arch Linux (no encuentro pacman)"; exit 1; }
-for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$COMUN/themes" "$COMUN/kitty" "$COMUN/qutebrowser" "$COMUN/yazi" "$COMUN/zsh"; do
+for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$COMUN/themes" "$COMUN/kitty" "$COMUN/qutebrowser" "$COMUN/yazi" "$COMUN/nvim" "$COMUN/zsh"; do
     [ -d "$d" ] || { echo "falta la carpeta $d: clona el repositorio completo"; exit 1; }
 done
 
@@ -152,6 +152,12 @@ done
 poner "$COMUN/kitty/kitty.conf" "$C/kitty/kitty.conf"
 poner "$COMUN/qutebrowser/config.py" "$C/qutebrowser/config.py"
 for f in "$COMUN"/qutebrowser/greasemonkey/*.js; do poner "$f" "$C/qutebrowser/greasemonkey/$(basename "$f")"; done
+# Neovim: solo si no hay una configuracion ajena (NvChad u otra) en su lugar
+if [ ! -e "$C/nvim" ] || grep -qs '^-- arch-dotfiles:' "$C/nvim/init.lua"; then
+    poner "$COMUN/nvim/init.lua" "$C/nvim/init.lua"
+else
+    aviso "ya hay una configuracion de Neovim en $C/nvim: no se toca"
+fi
 for f in yazi.toml keymap.toml package.toml; do poner "$COMUN/yazi/$f" "$C/yazi/$f"; done
 ya pkg install >/dev/null 2>&1 || aviso "no se pudo bajar el complemento de yazi; despues: ya pkg install"
 [ -f "$C/kitty/color.ini" ] || install -Dm644 "$COMUN/kitty/color.ini" "$C/kitty/color.ini"
