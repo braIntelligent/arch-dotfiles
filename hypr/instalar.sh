@@ -106,7 +106,7 @@ poner "$AQUI/hyprlock.conf" "$C/hypr/hyprlock.conf"
 [ -f "$C/hypr/colores.lua" ] || install -Dm644 "$AQUI/colores.lua" "$C/hypr/colores.lua"
 for f in "$AQUI"/scripts/*.sh;        do poner "$f" "$C/hypr/scripts/$(basename "$f")" 755; done
 for f in "$RAIZ"/themes/*.sh;         do poner "$f" "$C/hypr/themes/$(basename "$f")"; done
-poner "$AQUI/waybar/config.jsonc" "$C/waybar/config.jsonc"
+for f in config.jsonc htb.jsonc modulos.jsonc; do poner "$AQUI/waybar/$f" "$C/waybar/$f"; done
 poner "$AQUI/waybar/style.css"    "$C/waybar/style.css"
 [ -f "$C/waybar/colors.css" ] || install -Dm644 "$AQUI/waybar/colors.css" "$C/waybar/colors.css"
 for f in "$AQUI"/waybar/scripts/*.sh; do poner "$f" "$C/waybar/scripts/$(basename "$f")" 755; done

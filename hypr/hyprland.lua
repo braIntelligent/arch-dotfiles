@@ -99,7 +99,7 @@ hl.window_rule({
 ------------------------------------------------------------------ arranque
 hl.on("hyprland.start", function()
     hl.exec_cmd(S .. "aplicar-fondo.sh")
-    hl.exec_cmd("waybar")
+    hl.exec_cmd(S .. "barra.sh")
 end)
 
 ------------------------------------------------------------------ atajos
@@ -119,6 +119,7 @@ hl.bind(M .. " + SHIFT + E", menu("powermenu.sh"),      { description = "menu de
 hl.bind(M .. " + SHIFT + C", menu("wallpaper.sh"),      { description = "fondos" })
 hl.bind(M .. " + SHIFT + A", menu("theme-selector.sh"), { description = "temas" })
 hl.bind(M .. " + SHIFT + D", menu("cheatsheet.sh"),     { description = "hoja de atajos" })
+hl.bind(M .. " + SHIFT + B", sh(S .. "barra.sh cambiar"), { description = "barra: normal / HTB" })
 hl.bind(M .. " + SHIFT + R", menu("configs.sh"),        { description = "editar configs" })
 hl.bind(M .. " + SHIFT + I", menu("keyboard.sh"),       { description = "distribucion de teclado" })
 hl.bind(M .. " + B",         sh("pkill -USR1 -x waybar"),  { description = "ocultar/mostrar la barra" })

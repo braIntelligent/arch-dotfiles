@@ -1,0 +1,67 @@
+// Definicion de todos los modulos. La comparten config.jsonc (normal) y htb.jsonc.
+{
+    // clic en el logo: cambia entre la barra normal y la de HTB
+    "custom/arch": { "format": "", "tooltip": false, "on-click": "~/.config/hypr/scripts/barra.sh cambiar" },
+    "custom/ip":     { "exec": "~/.config/waybar/scripts/ip.sh",     "interval": 2, "tooltip": false },
+    "custom/vpn":    { "exec": "~/.config/waybar/scripts/vpn.sh",    "interval": 2, "tooltip": false },
+    "custom/target": { "exec": "~/.config/waybar/scripts/target.sh", "interval": 2, "tooltip": false },
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": { "empty": "", "default": "", "active": "" },
+        "persistent-workspaces": { "*": 5 }
+    },
+
+    "cpu":    { "interval": 2, "format": "<span color='#e0af68'></span>  {usage}%", "tooltip": false },
+    "memory": { "interval": 2, "format": "<span color='#bb9af7'>󰍛</span>  {percentage}%", "tooltip": false },
+
+    // rueda del mouse sobre el modulo: sube o baja el brillo
+    "backlight": {
+        "device": "apple-panel-bl",
+        "format": "<span color='#e0af68'></span>  {percent}%",
+        "on-scroll-up":   "brightnessctl -q -e4 -n2 set 5%+",
+        "on-scroll-down": "brightnessctl -q -e4 -n2 set 5%-",
+        "tooltip": false
+    },
+
+    // rueda: volumen; clic: silenciar
+    "wireplumber": {
+        "format": "<span color='#7dcfff'>{icon}</span>  {volume}%",
+        "format-muted": "<span color='#565f89'>  mudo</span>",
+        "format-icons": ["", ""],
+        "max-volume": 100,
+        "scroll-step": 5,
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "tooltip-format": "{node_name}"
+    },
+
+    "network": {
+        "interval": 5,
+        "format-wifi": "<span color='#7aa2f7'></span>  {essid}",
+        "max-length": 22,
+        "format-ethernet": "<span color='#7aa2f7'></span>  cable",
+        "format-disconnected": "<span color='#565f89'>  sin wifi</span>",
+        "tooltip-format-wifi": "{signalStrength}%  {frequency} GHz  {ipaddr}",
+        "tooltip-format": "{ifname}  {ipaddr}"
+    },
+
+    "battery": {
+        "bat": "macsmc-battery",
+        "interval": 30,
+        "states": { "warning": 25, "critical": 10 },
+        "format": "<span color='#9ece6a'>{icon}</span>  {capacity}%",
+        "format-warning": "<span color='#e0af68'>{icon}</span>  {capacity}%",
+        "format-critical": "<span color='#f7768e'>{icon}</span>  {capacity}%",
+        "format-charging": "<span color='#9ece6a'></span>  {capacity}%",
+        "format-plugged": "<span color='#9ece6a'></span>  {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "{timeTo}"
+    },
+
+    // clic: alterna entre la hora y la fecha
+    "clock": {
+        "format": "<span color='#bb9af7'></span>  {:%H:%M}",
+        "format-alt": "<span color='#bb9af7'></span>  {:%a %d %b}",
+        "tooltip": false
+    }
+}

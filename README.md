@@ -63,3 +63,4 @@ Los fondos de pantalla no vienen incluidos: van en `~/Pictures/wallpapers`.
 | `Super + d` | Terminal desplegable |
 | `Super + e` | Menú central |
 | `Super + Shift + a` | Temas, con vista previa |
+| `Super + Shift + b` | Cambiar la barra: normal (métricas) o HTB (IP, VPN y target) |

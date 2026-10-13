@@ -1,0 +1,16 @@
+// Barra para HTB: IP local, VPN y maquina objetivo. La normal esta en config.jsonc.
+{
+    "name": "htb",
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "margin-top": 8,
+    "margin-left": 12,
+    "margin-right": 12,
+    "spacing": 0,
+    "include": ["~/.config/waybar/modulos.jsonc"],
+
+    "modules-left":   ["custom/arch", "custom/ip", "custom/vpn"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right":  ["custom/target", "battery", "clock"]
+}
