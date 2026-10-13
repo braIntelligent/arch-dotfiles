@@ -3,7 +3,7 @@
 Configuración de mi escritorio en Arch Linux ARM (aarch64), en dos variantes con los mismos atajos, barra, menús y temas:
 
 - **bspwm (X11):** bspwm, sxhkd, polybar, picom, rofi y kitty. Es la que uso en una máquina virtual de VMware Fusion.
-- **Hyprland (Wayland):** Hyprland, waybar, rofi 2 y kitty. Pensada para instalar en un equipo real con Asahi ALARM.
+- **Hyprland (Wayland):** Hyprland, waybar, rofi 2, kitty, mako (notificaciones) e hypridle (bloqueo por inactividad). Pensada para instalar en un equipo real con Asahi ALARM.
 
 ## Instalar la variante Hyprland
 
@@ -40,6 +40,8 @@ Después se inicia sesión con ese usuario y se siguen los pasos de arriba (`git
 
 Los fondos de pantalla no vienen incluidos: van en `~/Pictures/wallpapers`.
 
+Para limitar la carga de la batería al 80 % en un Mac (alarga su vida útil si pasa mucho tiempo enchufado): `sudo sh scripts/limite-carga.sh`. Con `100` al final se quita el límite.
+
 ## Carpetas
 
 | Carpeta | Contenido |
@@ -47,7 +49,7 @@ Los fondos de pantalla no vienen incluidos: van en `~/Pictures/wallpapers`.
 | `hypr/` | Variante Hyprland: configuración, barra, menús y el instalador |
 | `bspwm-scripts/`, `sxhkd/`, `polybar/`, `picom/`, `rofi/` | Variante bspwm |
 | `kitty/`, `zsh/`, `themes/` | Compartido por ambas |
-| `scripts/` | Instalación de herramientas y ajustes puntuales de la máquina virtual |
+| `scripts/` | Instalación de herramientas, ajustes puntuales de la máquina virtual y el límite de carga del Mac |
 
 ## Atajos principales
 
@@ -64,3 +66,5 @@ Los fondos de pantalla no vienen incluidos: van en `~/Pictures/wallpapers`.
 | `Super + e` | Menú central |
 | `Super + Shift + a` | Temas, con vista previa |
 | `Super + Shift + b` | Cambiar la barra: normal (métricas) o HTB (IP, VPN y target) |
+| `Super + g` | Bluetooth (emparejar y conectar) |
+| `Super + Shift + n` | Cerrar las notificaciones |

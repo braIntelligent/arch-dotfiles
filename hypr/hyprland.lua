@@ -52,6 +52,9 @@ hl.config({
     misc = {
         force_default_wallpaper = 0,
         disable_hyprland_logo   = true,
+        -- con la pantalla apagada por inactividad, una tecla o el trackpad la encienden
+        key_press_enables_dpms  = true,
+        mouse_move_enables_dpms = true,
     },
     input = {
         kb_layout    = "latam",
@@ -96,10 +99,24 @@ hl.window_rule({
     move  = { "monitor_w * 0.2", 40 },
 })
 
+-- bluetui: ventana flotante al centro. stay_focused: mientras este abierta se queda
+-- con el teclado, aunque el puntero pase sobre otra ventana (si no, las teclas
+-- se iban a la de atras). Se cierra con q o con Super + G.
+hl.window_rule({
+    name  = "bluetooth",
+    match = { class = "^bluetooth$" },
+    float = true,
+    stay_focused = true,
+    size  = { "monitor_w * 0.6", "monitor_h * 0.7" },
+    move  = { "monitor_w * 0.2", "monitor_h * 0.15" },
+})
+
 ------------------------------------------------------------------ arranque
 hl.on("hyprland.start", function()
     hl.exec_cmd(S .. "aplicar-fondo.sh")
     hl.exec_cmd(S .. "barra.sh")
+    hl.exec_cmd("mako")        -- notificaciones
+    hl.exec_cmd("hypridle")    -- bloqueo y apagado de pantalla por inactividad
 end)
 
 ------------------------------------------------------------------ atajos
@@ -120,6 +137,8 @@ hl.bind(M .. " + SHIFT + C", menu("wallpaper.sh"),      { description = "fondos"
 hl.bind(M .. " + SHIFT + A", menu("theme-selector.sh"), { description = "temas" })
 hl.bind(M .. " + SHIFT + D", menu("cheatsheet.sh"),     { description = "hoja de atajos" })
 hl.bind(M .. " + SHIFT + B", sh(S .. "barra.sh cambiar"), { description = "barra: normal / HTB" })
+hl.bind(M .. " + G",         sh(S .. "bluetooth.sh"),     { description = "bluetooth (la misma tecla lo cierra)" })
+hl.bind(M .. " + SHIFT + N", sh("makoctl dismiss -a"),    { description = "cerrar las notificaciones" })
 hl.bind(M .. " + SHIFT + R", menu("configs.sh"),        { description = "editar configs" })
 hl.bind(M .. " + SHIFT + I", menu("keyboard.sh"),       { description = "distribucion de teclado" })
 hl.bind(M .. " + B",         sh("pkill -USR1 -x waybar"),  { description = "ocultar/mostrar la barra" })
@@ -235,6 +254,9 @@ hl.bind("XF86AudioRaiseVolume",  sh("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 
 hl.bind("XF86AudioLowerVolume",  sh("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      tecla)
 hl.bind("XF86AudioMute",         sh("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true })
 hl.bind("XF86AudioMicMute",      sh("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true })
+hl.bind("XF86AudioPlay",         sh("playerctl play-pause"),                           { locked = true })
+hl.bind("XF86AudioNext",         sh("playerctl next"),                                 { locked = true })
+hl.bind("XF86AudioPrev",         sh("playerctl previous"),                             { locked = true })
 hl.bind("XF86MonBrightnessUp",   sh("brightnessctl -e4 -n2 set 5%+"),                  tecla)
 hl.bind("XF86MonBrightnessDown", sh("brightnessctl -e4 -n2 set 5%-"),                  tecla)
 hl.bind("XF86KbdBrightnessUp",   sh("brightnessctl --device='*kbd_backlight' set 10%+"), tecla)

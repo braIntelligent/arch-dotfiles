@@ -63,5 +63,17 @@
         "format": "<span color='#bb9af7'></span>  {:%H:%M}",
         "format-alt": "<span color='#bb9af7'></span>  {:%a %d %b}",
         "tooltip": false
+    },
+
+    // clic: abre bluetui para emparejar o conectar
+    "bluetooth": {
+        "format": "<span color='#7aa2f7'></span>",
+        "format-connected": "<span color='#7aa2f7'></span>  {device_alias}",
+        "format-off": "<span color='#565f89'></span>",
+        "format-disabled": "<span color='#565f89'></span>",
+        "format-no-controller": "",
+        "max-length": 20,
+        "on-click": "~/.config/hypr/scripts/bluetooth.sh",
+        "tooltip-format": "{controller_alias}  {num_connections} conectados"
     }
 }

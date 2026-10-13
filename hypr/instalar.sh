@@ -49,12 +49,14 @@ poner() {
 paso "Actualizando el sistema e instalando paquetes"
 sudo pacman -Syu --noconfirm
 sudo pacman -S --needed --noconfirm \
-    hyprland waybar hyprlock swaybg xorg-xwayland \
+    hyprland waybar hyprlock hypridle mako swaybg xorg-xwayland \
     kitty firefox \
     wl-clipboard grim slurp wtype jq libnotify \
-    pipewire pipewire-pulse wireplumber brightnessctl \
+    pipewire pipewire-pulse wireplumber brightnessctl playerctl \
+    bluez bluez-utils bluetui \
     zsh zsh-autosuggestions zsh-syntax-highlighting fzf lsd bat \
     ttf-hack-nerd noto-fonts-emoji \
+    zram-generator \
     neovim git curl wget
 
 # En un Mac con Asahi, este paquete trae lo propio del equipo para un escritorio
@@ -66,6 +68,19 @@ fi
 # El audio parte solo desde el proximo inicio de sesion; esto lo deja andando ya,
 # sin tener que salir (si no, las teclas de volumen no hacen nada hasta reiniciar).
 systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service 2>/dev/null || true
+
+sudo systemctl enable --now bluetooth.service
+
+# Swap comprimida en memoria (zram). La imagen de ALARM viene sin swap, y sin ella
+# el sistema mata procesos de golpe cuando se acaba la RAM. No escribe en el disco.
+if [ ! -f /etc/systemd/zram-generator.conf ]; then
+    tmpf=$(mktemp)
+    printf '[zram0]\nzram-size = min(ram / 2, 4096)\ncompression-algorithm = zstd\n' > "$tmpf"
+    sudo install -Dm644 "$tmpf" /etc/systemd/zram-generator.conf
+    rm -f "$tmpf"
+    sudo systemctl daemon-reload
+    sudo systemctl start systemd-zram-setup@zram0.service || aviso "la swap no partio ahora; queda activa desde el proximo arranque"
+fi
 
 # ---------------------------------------------------------------- rofi 2
 # Los repositorios traen rofi 1.7.5, que solo funciona en X11. La version 2 es
@@ -103,6 +118,7 @@ mkdir -p "$C/hypr/scripts" "$C/hypr/themes" "$C/waybar/scripts" "$C/rofi" "$C/ki
 
 poner "$AQUI/hyprland.lua"  "$C/hypr/hyprland.lua"
 poner "$AQUI/hyprlock.conf" "$C/hypr/hyprlock.conf"
+poner "$AQUI/hypridle.conf" "$C/hypr/hypridle.conf"
 [ -f "$C/hypr/colores.lua" ] || install -Dm644 "$AQUI/colores.lua" "$C/hypr/colores.lua"
 for f in "$AQUI"/scripts/*.sh;        do poner "$f" "$C/hypr/scripts/$(basename "$f")" 755; done
 for f in "$RAIZ"/themes/*.sh;         do poner "$f" "$C/hypr/themes/$(basename "$f")"; done

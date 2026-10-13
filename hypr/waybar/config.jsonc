@@ -10,7 +10,7 @@
     "spacing": 0,
     "include": ["~/.config/waybar/modulos.jsonc"],
 
-    "modules-left":   ["custom/arch", "network"],
+    "modules-left":   ["custom/arch", "network", "bluetooth"],
     "modules-center": ["hyprland/workspaces"],
     "modules-right":  ["cpu", "memory", "backlight", "wireplumber", "battery", "clock"]
 }

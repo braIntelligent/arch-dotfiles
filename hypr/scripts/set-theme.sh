@@ -61,6 +61,30 @@ cat > "$HOME/.config/rofi/colors.rasi" <<EOT
 }
 EOT
 
+# --- mako (notificaciones) ---
+mkdir -p "$HOME/.config/mako"
+cat > "$HOME/.config/mako/config" <<EOT
+# Notificaciones. Lo reescribe set-theme.sh al cambiar de tema.
+font=Hack Nerd Font 11
+anchor=top-right
+margin=12
+width=340
+height=140
+padding=12
+border-size=2
+border-radius=10
+default-timeout=5000
+max-visible=4
+background-color=${bg}e6
+text-color=$fg
+border-color=$accent
+progress-color=over $bg_alt
+
+[urgency=critical]
+border-color=$red
+default-timeout=0
+EOT
+
 # --- hyprland (bordes) ---
 cat > "$HOME/.config/hypr/colores.lua" <<EOT
 -- Colores del tema activo. Lo reescribe set-theme.sh
@@ -79,4 +103,5 @@ printf '%s\n' "$theme" > "$HOME/.cache/theme"
 # --- recargar ---
 pkill -USR1 -x kitty 2>/dev/null
 pkill -USR2 -x waybar 2>/dev/null
+makoctl reload >/dev/null 2>&1
 hyprctl reload >/dev/null 2>&1 || true

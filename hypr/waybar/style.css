@@ -16,7 +16,7 @@ window#waybar {
 /* en la barra de HTB el logo va en el verde de Hack The Box */
 window#waybar.htb #custom-arch { color: #9fef00; }
 #custom-ip, #custom-vpn, #custom-target, #cpu, #memory,
-#backlight, #wireplumber, #network, #battery, #clock { padding: 0 10px; }
+#backlight, #wireplumber, #network, #bluetooth, #battery, #clock { padding: 0 10px; }
 #clock { padding-right: 18px; }
 
 #workspaces button { padding: 0 5px; background: transparent; color: @magenta; border-radius: 0; }
