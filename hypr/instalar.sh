@@ -162,6 +162,15 @@ for f in yazi.toml keymap.toml package.toml; do poner "$COMUN/yazi/$f" "$C/yazi/
 ya pkg install >/dev/null 2>&1 || aviso "no se pudo bajar el complemento de yazi; despues: ya pkg install"
 [ -f "$C/kitty/color.ini" ] || install -Dm644 "$COMUN/kitty/color.ini" "$C/kitty/color.ini"
 
+# Audio del Mac: evita el chirrido de los parlantes cuando el audio queda en
+# silencio (PipeWire suspende el nodo ALSA y el amplificador tas2770 hace un
+# ciclo de apagado/encendido). Es hardware del Mac, asi que solo en modo nativo.
+if [ "$MODO" = nativo ]; then
+    poner "$AQUI/wireplumber/51-desactivar-suspend.conf" \
+          "$C/wireplumber/wireplumber.conf.d/51-desactivar-suspend.conf"
+    systemctl --user restart wireplumber 2>/dev/null || true
+fi
+
 # Ajustes propios de este equipo. Se crea una sola vez y despues no se toca:
 # es el archivo para cambiar la distribucion del teclado o la escala de la pantalla.
 if [ ! -f "$C/hypr/equipo.lua" ]; then
