@@ -178,7 +178,17 @@ hl.bind(M .. " + Return", sh(terminal),  { description = "terminal" })
 hl.bind(M .. " + space",  sh("pkill -x rofi || rofi -show run"), { description = "lanzador (la misma tecla lo cierra)" })
 hl.bind(M .. " + N",      sh("qutebrowser"), { description = "navegador (qutebrowser)" })
 -- yazi se maneja con el teclado; thunar (con ventana y mouse) sigue en el lanzador
-hl.bind(M .. " + SHIFT + F", sh(terminal .. " --class archivos -e yazi"), { description = "archivos (yazi)" })
+hl.bind(M .. " + SHIFT + F", function()
+    -- si ya esta abierto, la misma tecla lo cierra
+    for _, v in ipairs(hl.get_windows()) do
+        if v.class == "archivos" then
+            hl.dispatch(hl.dsp.window.close({ window = "address:" .. v.address }))
+            return
+        end
+    end
+    -- confirm_os_window_close=0: que kitty cierre sin preguntar, aunque yazi este corriendo
+    hl.dispatch(hl.dsp.exec_cmd(terminal .. " -o confirm_os_window_close=0 --class archivos -e yazi"))
+end, { description = "archivos (yazi); la misma tecla lo cierra" })
 
 -- menus. En Wayland la tecla la recibe Hyprland y no rofi, asi que el "cerrar con la
 -- misma tecla" se hace aqui: si hay un rofi abierto se cierra; si no, se abre el menu.
