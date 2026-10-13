@@ -1,11 +1,12 @@
 #!/bin/sh
-# Instala el escritorio Hyprland sobre un Arch Linux ARM ya instalado
-# (pensado para Asahi ALARM "Minimal"; tambien sirve en una maquina virtual).
+# Instala el escritorio Hyprland sobre un Arch Linux ARM ya instalado.
+# Pensado para Mac con Apple Silicon y Asahi ALARM "Minimal".
 #
-# Uso, desde la carpeta arch-dotfiles copiada al equipo:
-#     sh hypr/instalar.sh            detecta solo si es VM o equipo real
-#     sh hypr/instalar.sh --vm       fuerza los ajustes de maquina virtual
-#     sh hypr/instalar.sh --nativo   fuerza la configuracion de equipo real
+# Uso, desde la carpeta del repositorio:
+#     sh hypr/instalar.sh                    detecta solo si es VM o equipo real
+#     sh hypr/instalar.sh --teclado latam    distribucion de teclado (latam, es, us, ...)
+#     sh hypr/instalar.sh --vm               fuerza los ajustes de maquina virtual
+#     sh hypr/instalar.sh --nativo           fuerza la configuracion de equipo real
 #
 # Se corre como usuario normal: pide sudo cuando lo necesita.
 # Se puede repetir: no duplica nada y respalda lo que reemplaza.
@@ -13,9 +14,14 @@ set -eu
 
 ROFI_VER=2.0.0
 ROFI_SHA256=6a55ee27f189ef9a1435cea329b146805b5dc830d8abc7a08c50a971521a8d8d
+# complemento "sudo" de oh-my-zsh y prompt powerlevel10k: versiones fijas
+OMZ_COMMIT=f8bf8f0029a475831ebfba0799975ede20e08742
+OMZ_SUDO_SHA256=a57ca50dd7607af2651db558151cfb2fea0139bf2141b1968b87bb67d95c2c59
+P10K_TAG=v1.20.0
 
 AQUI=$(cd "$(dirname "$0")" && pwd)     # .../arch-dotfiles/hypr
 RAIZ=$(dirname "$AQUI")                  # .../arch-dotfiles
+COMUN="$RAIZ/compartido"                 # lo que comparten las dos variantes
 SELLO=$(date +%Y%m%d-%H%M%S)
 
 paso()  { printf '\n==> %s\n' "$1"; }
@@ -23,17 +29,26 @@ aviso() { printf '    %s\n' "$1"; }
 
 [ "$(id -u)" != 0 ] || { echo "corre este script como usuario normal, no como root"; exit 1; }
 command -v pacman >/dev/null || { echo "esto es para Arch Linux (no encuentro pacman)"; exit 1; }
-for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$RAIZ/themes" "$RAIZ/kitty" "$RAIZ/qutebrowser" "$RAIZ/zsh"; do
-    [ -d "$d" ] || { echo "falta la carpeta $d: copia arch-dotfiles completa"; exit 1; }
+for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$COMUN/themes" "$COMUN/kitty" "$COMUN/qutebrowser" "$COMUN/zsh"; do
+    [ -d "$d" ] || { echo "falta la carpeta $d: clona el repositorio completo"; exit 1; }
 done
 
 # ---------------------------------------------------------------- modo
-case "${1:-auto}" in
-    --vm)     MODO=vm ;;
-    --nativo) MODO=nativo ;;
-    auto)     if systemd-detect-virt --quiet 2>/dev/null; then MODO=vm; else MODO=nativo; fi ;;
-    *) echo "uso: $0 [--vm | --nativo]"; exit 1 ;;
-esac
+MODO=auto
+TECLADO=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --vm)      MODO=vm ;;
+        --nativo)  MODO=nativo ;;
+        --teclado) [ $# -ge 2 ] || { echo "falta el valor de --teclado"; exit 1; }
+                   TECLADO=$2; shift ;;
+        *) echo "uso: $0 [--vm | --nativo] [--teclado DISTRIBUCION]"; exit 1 ;;
+    esac
+    shift
+done
+if [ "$MODO" = auto ]; then
+    if systemd-detect-virt --quiet 2>/dev/null; then MODO=vm; else MODO=nativo; fi
+fi
 paso "Modo: $MODO"
 
 # copia un archivo; si el destino existe y es distinto, lo respalda primero
@@ -52,7 +67,7 @@ sudo pacman -S --needed --noconfirm \
     hyprland waybar hyprlock hypridle hyprsunset mako swaybg xorg-xwayland \
     kitty firefox qutebrowser mpv mpv-mpris yt-dlp nodejs imv thunar tumbler \
     wl-clipboard cliphist grim slurp wf-recorder wtype jq libnotify \
-    hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
+    hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk xdg-utils \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
     bluez bluez-utils bluetui kdeconnect \
     zsh zsh-autosuggestions zsh-syntax-highlighting fzf lsd bat \
@@ -123,7 +138,7 @@ poner "$AQUI/hypridle.conf" "$C/hypr/hypridle.conf"
 poner "$AQUI/hyprsunset.conf" "$C/hypr/hyprsunset.conf"
 [ -f "$C/hypr/colores.lua" ] || install -Dm644 "$AQUI/colores.lua" "$C/hypr/colores.lua"
 for f in "$AQUI"/scripts/*.sh;        do poner "$f" "$C/hypr/scripts/$(basename "$f")" 755; done
-for f in "$RAIZ"/themes/*.sh;         do poner "$f" "$C/hypr/themes/$(basename "$f")"; done
+for f in "$COMUN"/themes/*.sh;        do poner "$f" "$C/hypr/themes/$(basename "$f")"; done
 for f in config.jsonc htb.jsonc modulos.plantilla.jsonc; do poner "$AQUI/waybar/$f" "$C/waybar/$f"; done
 poner "$AQUI/waybar/style.css"    "$C/waybar/style.css"
 [ -f "$C/waybar/colors.css" ] || install -Dm644 "$AQUI/waybar/colors.css" "$C/waybar/colors.css"
@@ -132,9 +147,37 @@ for f in "$AQUI"/rofi/*.rasi; do
     [ "$(basename "$f")" = colors.rasi ] && [ -f "$C/rofi/colors.rasi" ] && continue
     poner "$f" "$C/rofi/$(basename "$f")"
 done
-poner "$RAIZ/kitty/kitty.conf" "$C/kitty/kitty.conf"
-poner "$RAIZ/qutebrowser/config.py" "$C/qutebrowser/config.py"
-[ -f "$C/kitty/color.ini" ] || install -Dm644 "$RAIZ/kitty/color.ini" "$C/kitty/color.ini"
+poner "$COMUN/kitty/kitty.conf" "$C/kitty/kitty.conf"
+poner "$COMUN/qutebrowser/config.py" "$C/qutebrowser/config.py"
+[ -f "$C/kitty/color.ini" ] || install -Dm644 "$COMUN/kitty/color.ini" "$C/kitty/color.ini"
+
+# Ajustes propios de este equipo. Se crea una sola vez y despues no se toca:
+# es el archivo para cambiar la distribucion del teclado o la escala de la pantalla.
+if [ ! -f "$C/hypr/equipo.lua" ]; then
+    if [ -z "$TECLADO" ]; then
+        # la que ya este en uso en Hyprland; si no, la de la consola; si no, us
+        TECLADO=$(hyprctl devices -j 2>/dev/null \
+            | jq -r '[.keyboards[] | select(.main == true) | .layout][0] // empty' 2>/dev/null || true)
+    fi
+    if [ -z "$TECLADO" ]; then
+        case "$(sed -n 's/^KEYMAP=//p' /etc/vconsole.conf 2>/dev/null | tr -d '"')" in
+            la-latin1|latam) TECLADO=latam ;;
+            es*)             TECLADO=es ;;
+            *)               TECLADO=us ;;
+        esac
+    fi
+    cat > "$C/hypr/equipo.lua" <<EOT
+-- Ajustes de este equipo. instalar.sh lo crea una vez y no lo vuelve a tocar.
+return {
+    teclado = "$TECLADO",   -- distribucion del teclado: latam, es, us, ...
+    escala  = 2,            -- escala de la pantalla del portatil (2 = Retina)
+}
+EOT
+    aviso "teclado: $TECLADO  (se cambia en ~/.config/hypr/equipo.lua)"
+elif [ -n "$TECLADO" ]; then
+    sed -i "s/teclado *= *\"[^\"]*\"/teclado = \"$TECLADO\"/" "$C/hypr/equipo.lua"
+    aviso "teclado: $TECLADO"
+fi
 
 if [ "$MODO" = vm ]; then
     : > "$C/hypr/es-vm"
@@ -150,7 +193,7 @@ for t in image/png image/jpeg image/webp image/gif; do xdg-mime default imv-dir.
 xdg-mime default thunar.desktop inode/directory
 
 # yt-dlp al dia para la musica de YouTube (la version de los repositorios queda vieja)
-sh "$RAIZ/scripts/actualizar-yt-dlp.sh" || aviso "no se pudo actualizar yt-dlp; despues: sh scripts/actualizar-yt-dlp.sh"
+sh "$RAIZ/extras/actualizar-yt-dlp.sh" || aviso "no se pudo actualizar yt-dlp; despues: sh extras/actualizar-yt-dlp.sh"
 
 # ---------------------------------------------------------------- fondos
 paso "Fondos de pantalla"
@@ -169,14 +212,14 @@ fi
 paso "zsh, complementos y prompt"
 if [ ! -f /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh ]; then
     tmpf=$(mktemp)
-    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh -o "$tmpf"
-    grep -q 'sudo-command-line' "$tmpf" || { echo "la descarga del complemento sudo no parece valida"; exit 1; }
+    curl -fsSL "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/$OMZ_COMMIT/plugins/sudo/sudo.plugin.zsh" -o "$tmpf"
+    echo "$OMZ_SUDO_SHA256  $tmpf" | sha256sum -c - >/dev/null
     sudo install -Dm644 "$tmpf" /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh
     rm -f "$tmpf"
 fi
-[ -d "$HOME/powerlevel10k" ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/powerlevel10k"
-poner "$RAIZ/zsh/.zshrc"    "$HOME/.zshrc"
-poner "$RAIZ/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
+[ -d "$HOME/powerlevel10k" ] || git clone --depth=1 --branch "$P10K_TAG" https://github.com/romkatv/powerlevel10k.git "$HOME/powerlevel10k"
+poner "$COMUN/zsh/.zshrc"    "$HOME/.zshrc"
+poner "$COMUN/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
 cat > "$C/target.zsh" <<'EOT'
 # Maquina objetivo que muestra la barra
 settarget() {

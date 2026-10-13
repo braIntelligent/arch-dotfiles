@@ -1,8 +1,12 @@
 #!/bin/sh
 # Avisa cuando la bateria baja de 20 % y de 10 %. Lo lanza Hyprland al iniciar.
 # Revisa una vez por minuto; cada aviso sale una sola vez hasta volver a enchufar.
-B=/sys/class/power_supply/macsmc-battery
-[ -r "$B/capacity" ] || B=$(ls -d /sys/class/power_supply/BAT* 2>/dev/null | head -n1)
+B=""
+for d in /sys/class/power_supply/*; do
+    [ "$(cat "$d/type" 2>/dev/null)" = Battery ] || continue
+    [ "$(cat "$d/scope" 2>/dev/null)" = Device ] && continue     # mouse o teclado inalambrico
+    B=$d; break
+done
 [ -r "$B/capacity" ] || exit 0      # sin bateria: maquina virtual o equipo de escritorio
 
 avisado=100

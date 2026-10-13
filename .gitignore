@@ -8,3 +8,4 @@ wallpapers/
 *.anterior
 *.antes-*
 .DS_Store
+__pycache__/

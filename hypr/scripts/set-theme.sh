@@ -1,5 +1,6 @@
 #!/bin/sh
-# Aplica un tema a kitty, waybar, rofi y Hyprland.
+# Aplica un tema a todo el escritorio: Hyprland, barra, menus, terminal,
+# notificaciones, bloqueo, navegador y aplicaciones GTK y Qt.
 # uso: set-theme.sh <id-del-tema>   (los temas estan en ~/.config/hypr/themes)
 theme="$1"
 tdir="$HOME/.config/hypr/themes"
@@ -48,10 +49,21 @@ cat > "$HOME/.config/waybar/colors.css" <<EOT
 @define-color magenta $magenta;
 EOT
 
-# los iconos de los modulos: la plantilla trae @color@ en vez de un color fijo
+# Los modulos salen de una plantilla: @color@ se cambia por el color del tema, y
+# @bateria@ y @panel@ por los dispositivos de este equipo. Si no hay, se quita esa
+# linea y waybar los busca por su cuenta.
+bateria=""
+for d in /sys/class/power_supply/*; do
+    [ "$(cat "$d/type" 2>/dev/null)" = Battery ] || continue
+    [ "$(cat "$d/scope" 2>/dev/null)" = Device ] && continue     # mouse o teclado inalambrico
+    bateria=$(basename "$d"); break
+done
+panel=$(ls /sys/class/backlight 2>/dev/null | head -n1)
 sed -e "s/@blue@/$blue/g" -e "s/@cyan@/$cyan/g" -e "s/@green@/$green/g" \
     -e "s/@yellow@/$yellow/g" -e "s/@magenta@/$magenta/g" -e "s/@red@/$red/g" \
     -e "s/@dim@/$dim/g" \
+    -e "s/@bateria@/${bateria:-@bateria@}/g" -e "/@bateria@/d" \
+    -e "s/@panel@/${panel:-@panel@}/g" -e "/@panel@/d" \
     "$HOME/.config/waybar/modulos.plantilla.jsonc" > "$HOME/.config/waybar/modulos.jsonc"
 
 # --- rofi ---

@@ -5,7 +5,7 @@
 #      musica.sh siguiente    pasar al tema siguiente
 #      musica.sh parar        detener
 # El audio lo baja yt-dlp y se lo pasa a mpv por una tuberia: si mpv abre la direccion
-# por su cuenta, YouTube responde 403. Si deja de funcionar: scripts/actualizar-yt-dlp.sh
+# por su cuenta, YouTube responde 403. Si deja de funcionar: extras/actualizar-yt-dlp.sh
 Y="$HOME/.local/bin/yt-dlp"; [ -x "$Y" ] || Y=yt-dlp
 R="${XDG_RUNTIME_DIR:-/tmp}"
 sock="$R/musica.sock"       # identifica al mpv de la musica
@@ -47,7 +47,7 @@ esac
 
 notify-send -a musica -t 2500 "Buscando: $q"
 res=$("$Y" --flat-playlist --print '%(id)s	%(duration_string)s	%(title)s' "ytsearch15:$q" 2>/dev/null)
-[ -n "$res" ] || { notify-send -u critical "Musica" "La busqueda no devolvio nada. Prueba scripts/actualizar-yt-dlp.sh"; exit 1; }
+[ -n "$res" ] || { notify-send -u critical "Musica" "La busqueda no devolvio nada. Prueba extras/actualizar-yt-dlp.sh del repositorio"; exit 1; }
 
 i=$(printf '%s\n' "$res" | awk -F'\t' '{ printf "%s  (%s)\n", $3, $2 }' \
     | rofi -dmenu -format i -kb-cancel "Escape,Super+space,Super+Shift+M" -i -p "$q" \

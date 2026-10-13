@@ -1,6 +1,6 @@
 #!/bin/sh
 # Power menu horizontal. Indices: 0 lock 1 suspend 2 logout 3 reboot 4 apagar
-# Apagar/reiniciar/suspender usan sudo (ver scripts/power-nopasswd.sh para el permiso).
+# Apagar/reiniciar/suspender usan sudo (ver instalacion/power-nopasswd.sh para el permiso).
 S="$HOME/.config/bspwm/scripts"
 i=$(printf '  Bloquear\n  Suspender\n  Cerrar\n  Reiniciar\n  Apagar\n' \
     | rofi -dmenu -kb-cancel "Escape,Super+space,Super+E" -format i -i -p "Adios $USER" \

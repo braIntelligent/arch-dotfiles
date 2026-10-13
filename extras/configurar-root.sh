@@ -7,7 +7,7 @@ if [ "$(id -u)" != 0 ]; then
     echo "hay que correrlo con sudo"
     exit 1
 fi
-u=${SUDO_USER:-amnesia}
+u=${SUDO_USER:?corre este script con sudo desde tu usuario normal}
 uh=$(getent passwd "$u" | cut -d: -f6)
 for f in "$uh/.zshrc" "$uh/.p10k.zsh" "$uh/powerlevel10k/powerlevel10k.zsh-theme"; do
     [ -e "$f" ] || { echo "falta $f"; exit 1; }

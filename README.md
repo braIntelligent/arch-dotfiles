@@ -1,78 +1,141 @@
 # arch-dotfiles
 
-Configuración de mi escritorio en Arch Linux ARM (aarch64), en dos variantes con los mismos atajos, barra, menús y temas:
+Escritorio en mosaico para **Mac con Apple Silicon**, sobre [Asahi ALARM](https://asahi-alarm.org) (Arch Linux ARM): Hyprland, una barra, menús hechos con rofi y temas que cambian todo el sistema de una vez. Se instala con un solo script sobre la imagen mínima de ALARM.
 
-- **bspwm (X11):** bspwm, sxhkd, polybar, picom, rofi y kitty. Es la que uso en una máquina virtual de VMware Fusion.
-- **Hyprland (Wayland):** Hyprland, waybar, rofi 2, kitty, mako (notificaciones), hypridle (bloqueo por inactividad), hyprsunset (luz nocturna) y KDE Connect. Pensada para instalar en un equipo real con Asahi ALARM.
+Probado en un MacBook Air M1.
 
-## Instalar la variante Hyprland
+## Qué incluye
 
-Sobre un Arch Linux ARM ya instalado, con un usuario que tenga `sudo`:
+| | |
+|---|---|
+| Gestor de ventanas | Hyprland (Wayland), configurado en Lua, con atajos tipo vim |
+| Barra | waybar en dos modos: métricas del equipo, o IP, VPN y máquina objetivo para laboratorios de seguridad |
+| Menús | rofi 2: energía, fondos, temas con vista previa, hoja de atajos, capturas, portapapeles |
+| Temas | Tokyo Night, Catppuccin, Gruvbox y Arch; se aplican a ventanas, barra, menús, terminal, notificaciones, bloqueo, navegador y aplicaciones GTK y Qt |
+| Terminal | kitty con zsh, powerlevel10k y atajos estilo tmux |
+| Propio del Mac | teclas de volumen y brillo con indicador en pantalla, luz del teclado, gestos del trackpad, parlantes, límite de carga de la batería |
+| Sesión | bloqueo y suspensión por inactividad, luz nocturna, notificaciones, Bluetooth, grabación de pantalla |
+
+## Instalación
+
+Hace falta un Mac con Apple Silicon y Asahi ALARM en su variante **Minimal** ya instalado.
+
+### 1. Primer arranque de ALARM
+
+La imagen mínima arranca en consola con el usuario `root` (clave `root`). Hay que conectar la red y crear un usuario normal:
 
 ```sh
-sudo pacman -Syu git
-git clone https://github.com/braIntelligent/arch-dotfiles.git
-cd arch-dotfiles
-sh hypr/instalar.sh
-```
-
-El script instala los paquetes, compila rofi 2 (los repositorios traen la 1.7.5, que no funciona en Wayland), copia la configuración y deja Hyprland arrancando al iniciar sesión en la primera consola. Detecta si corre en una máquina virtual y aplica los ajustes que eso requiere; se puede forzar con `--vm` o `--nativo`.
-
-Está probado en una máquina virtual de VMware Fusion y en un MacBook Air M1 con Asahi ALARM.
-
-### Desde Asahi ALARM Minimal recién instalado
-
-La instalación mínima arranca en consola con el usuario `root` (clave `root`). Antes de correr el instalador hay que tener red y un usuario normal:
-
-```sh
-loadkeys la-latin1                                    # teclado latinoamericano en la consola
+loadkeys la-latin1                                    # teclado de la consola; omitir si es US
 nmcli device wifi connect "NOMBRE_RED" password "CLAVE"
 pacman -Syu git
 
 useradd -m -G wheel -s /bin/bash USUARIO
 passwd USUARIO
 passwd                                                # cambiar la clave de root
-EDITOR=vim visudo                                     # quitar el # de la linea "%wheel ALL=(ALL:ALL) ALL"
+EDITOR=vim visudo                                     # quitar el # de "%wheel ALL=(ALL:ALL) ALL"
 exit
 ```
 
-Después se inicia sesión con ese usuario y se siguen los pasos de arriba (`git clone` y `sh hypr/instalar.sh`).
+### 2. El escritorio
 
-Los fondos de pantalla no vienen incluidos: van en `~/Pictures/wallpapers`.
+Con el usuario nuevo:
 
-Para limitar la carga de la batería al 80 % en un Mac (alarga su vida útil si pasa mucho tiempo enchufado): `sudo sh scripts/limite-carga.sh`. Con `100` al final se quita el límite.
+```sh
+git clone https://github.com/braIntelligent/arch-dotfiles.git
+cd arch-dotfiles
+sh hypr/instalar.sh --teclado latam
+```
 
-## Carpetas
+`--teclado` es la distribución del teclado (`latam`, `es`, `us`, ...). Si se omite, se usa la de la consola.
 
-| Carpeta | Contenido |
-|---|---|
-| `hypr/` | Variante Hyprland: configuración, barra, menús y el instalador |
-| `bspwm-scripts/`, `sxhkd/`, `polybar/`, `picom/`, `rofi/` | Variante bspwm |
-| `kitty/`, `zsh/`, `themes/`, `qutebrowser/` | Compartido por ambas |
-| `scripts/` | Instalación de herramientas (BlackArch, NvChad, LocalSend) y el límite de carga del Mac |
-| `scripts/vm/` | Ajustes puntuales de la máquina virtual |
+El script instala los paquetes, compila rofi 2 (los repositorios traen la 1.7.5, que no funciona en Wayland), copia la configuración y deja Hyprland arrancando al iniciar sesión en la primera consola. Al terminar, se cierra la sesión y se vuelve a entrar.
 
-## Atajos principales
+Se puede correr de nuevo cuando se quiera, por ejemplo después de un `git pull`: no duplica nada y respalda cada archivo que reemplaza.
 
-`Super` es la tecla Cmd o Windows. `Super + Shift + D` muestra la hoja completa.
+### 3. Fondos de pantalla
+
+No vienen incluidos. Las imágenes van en `~/Pictures/wallpapers` y se eligen con `Super + Shift + C`.
+
+## Atajos
+
+`Super` es la tecla Cmd. La lista completa se abre con `Super + Shift + D`.
 
 | Atajo | Acción |
 |---|---|
 | `Super + Enter` | Terminal |
 | `Super + Espacio` | Lanzador |
-| `Super + h j k l` | Mover el foco |
-| `Super + y u i o` | Abrir una terminal hacia ese lado |
-| `Super + m` | Ocultar todo el escritorio o traerlo de vuelta |
-| `Super + d` | Terminal desplegable |
-| `Super + e` | Menú central |
-| `Super + Shift + a` | Temas, con vista previa |
-| `Super + Shift + b` | Cambiar la barra: normal (métricas) o HTB (IP, VPN y target) |
-| `Super + g` | Bluetooth (emparejar y conectar) |
-| `Super + Shift + n` | Cerrar las notificaciones |
-| `Super + Shift + v` | Historial del portapapeles |
-| `Super + Shift + f` | Archivos (thunar) |
-| `Super + Shift + q` | Navegador liviano (qutebrowser) |
-| `Super + Shift + m` | Música de YouTube: buscar y reproducir solo el audio |
-| `Super + Shift + s` | Menú de capturas y grabación |
-| `Super + Shift + g` | Grabar la pantalla; otra vez para detener |
+| `Super + N` | Navegador |
+| `Super + H J K L` | Mover el foco |
+| `Super + Shift + H J K L` | Intercambiar ventanas |
+| `Super + Y U I O` | Abrir una terminal hacia ese lado |
+| `Super + 1…5` | Cambiar de escritorio (con Shift, mandar la ventana) |
+| `Super + W` | Cerrar la ventana |
+| `Super + M` | Ocultar todo el escritorio o traerlo de vuelta |
+| `Super + D` | Terminal desplegable |
+| `Super + E` | Menú central |
+| `Super + Shift + A` | Temas, con vista previa |
+| `Super + Shift + B` | Cambiar la barra: normal o de laboratorio |
+| `Super + G` | Bluetooth |
+| `Super + Shift + V` | Historial del portapapeles |
+| `Super + P` | Captura de una zona |
+| `Super + Shift + S` | Menú de capturas y grabación |
+| `Super + Shift + M` | Música de YouTube, solo audio |
+| `Super + Shift + X` | Bloquear |
+| `Super + Shift + E` | Apagar, reiniciar, suspender |
 | Tres dedos hacia los lados | Cambiar de escritorio |
+
+Los menús se cierran con la misma tecla que los abre.
+
+## Personalizar
+
+**Ajustes del equipo.** `~/.config/hypr/equipo.lua` guarda la distribución del teclado y la escala de la pantalla. El instalador lo crea una vez y no lo vuelve a tocar.
+
+**Temas.** Cada tema es un archivo de variables en `~/.config/hypr/themes/`. Para agregar uno basta copiar un archivo existente y cambiar los colores: aparece solo en el selector.
+
+**Barra de laboratorio.** La máquina objetivo se define desde la terminal con `settarget 10.10.10.5 nombre` y se quita con `cleartarget`.
+
+**Batería.** `sudo sh extras/limite-carga.sh` limita la carga al 80 %, lo que alarga su vida útil si el equipo pasa mucho tiempo enchufado. Con `100` al final se quita el límite.
+
+## Estructura
+
+| Carpeta | Contenido |
+|---|---|
+| `hypr/` | El escritorio para Apple Silicon: configuración de Hyprland, barra, menús y el instalador |
+| `compartido/` | Lo que usan las dos variantes: kitty, zsh, temas y qutebrowser |
+| `extras/` | Opcionales: límite de carga, LocalSend, NvChad, herramientas de BlackArch |
+| `bspwm/` | La variante para máquina virtual (ver más abajo) |
+
+## Variante para máquina virtual
+
+Hyprland necesita una tarjeta de video real y en una máquina virtual se arrastra. Para ese caso está `bspwm/`, el mismo escritorio sobre X11 (bspwm, sxhkd, polybar, picom y rofi), con los mismos atajos, menús y temas. La uso en VMware Fusion.
+
+No tiene instalador: cada carpeta se copia a su lugar en `~/.config`.
+
+| Carpeta del repositorio | Destino |
+|---|---|
+| `bspwm/scripts/` | `~/.config/bspwm/scripts/` |
+| `bspwm/sxhkd/` | `~/.config/sxhkd/` |
+| `bspwm/polybar/` | `~/.config/polybar/` |
+| `bspwm/picom/` | `~/.config/picom/` |
+| `bspwm/rofi/` | `~/.config/rofi/` |
+| `compartido/themes/` | `~/.config/bspwm/themes/` |
+| `compartido/kitty/` | `~/.config/kitty/` |
+
+`bspwm/instalacion/` trae scripts sueltos para esa máquina: pantalla Retina, bloqueo de pantalla, ampliar el disco y el permiso para apagar desde el menú.
+
+Las dos variantes tienen menús y scripts parecidos a propósito: cada una es independiente y en un equipo se instala una sola.
+
+## Problemas conocidos
+
+- **Las teclas de volumen no responden justo después de instalar.** El audio queda activo desde el siguiente inicio de sesión.
+- **La música de YouTube deja de sonar.** YouTube cambia seguido; se arregla con `sh extras/actualizar-yt-dlp.sh`.
+- **Hyprland no parte.** El registro queda en `~/.cache/hyprland-inicio.log`, y la configuración se revisa con `Hyprland --verify-config -c ~/.config/hypr/hyprland.lua`.
+
+## Créditos
+
+- [Asahi Linux](https://asahilinux.org) y [Asahi ALARM](https://asahi-alarm.org), que hacen posible Linux en estos equipos.
+- [gh0stzk](https://github.com/gh0stzk/dotfiles), cuyos diseños de menús inspiraron los de este repositorio.
+
+## Licencia
+
+[MIT](LICENSE)

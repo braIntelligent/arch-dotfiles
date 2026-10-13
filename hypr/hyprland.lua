@@ -1,10 +1,18 @@
--- Hyprland: replica del escritorio bspwm (mismos atajos).
+-- Hyprland para Mac con Apple Silicon (Asahi ALARM).
 -- Sintaxis Lua de Hyprland 0.55+. Referencia: https://wiki.hypr.land/Configuring/
 
 local HOME = os.getenv("HOME")
 local S = HOME .. "/.config/hypr/scripts/"
 -- dofile y no require: asi los colores se releen en cada "hyprctl reload"
 local c = dofile(HOME .. "/.config/hypr/colores.lua")
+
+-- Ajustes propios del equipo: ~/.config/hypr/equipo.lua (lo crea instalar.sh).
+-- Si falta, o no trae algun valor, se usan estos.
+local equipo = { teclado = "us", escala = 2 }
+local ok_equipo, propio = pcall(dofile, HOME .. "/.config/hypr/equipo.lua")
+if ok_equipo and type(propio) == "table" then
+    for k, v in pairs(propio) do equipo[k] = v end
+end
 
 -- Si existe ~/.config/hypr/es-vm se aplican los ajustes para maquina virtual
 -- (lo crea instalar.sh cuando detecta una VM; en un equipo real no existe).
@@ -21,8 +29,9 @@ if es_vm then
     -- La VM anuncia 1280x800 como preferida; se pide la real y se escala al doble.
     hl.monitor({ output = "", mode = "2560x1600@60", position = "auto", scale = 2 })
 else
-    -- Pantalla Retina del portatil: resolucion propia, todo al doble de tamano.
-    hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 2 })
+    -- Pantalla del portatil (eDP-1 es el panel interno): resolucion propia y la
+    -- escala de equipo.lua (2 en las pantallas Retina).
+    hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = equipo.escala })
     -- Cualquier otra pantalla que se conecte: su resolucion propia, al lado, y la
     -- escala que le corresponda segun su tamano.
     hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
@@ -62,7 +71,7 @@ hl.config({
         mouse_move_enables_dpms = true,
     },
     input = {
-        kb_layout    = "latam",
+        kb_layout    = equipo.teclado,
         follow_mouse = 1,
         -- desplazamiento: "natural" es el sentido del Mac (el contenido sigue a los dedos).
         -- scroll_factor es la velocidad: 1.0 normal, menos es mas lento, mas es mas rapido.
