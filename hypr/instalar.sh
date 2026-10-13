@@ -276,7 +276,11 @@ aviso "tema: $tema"
 
 # ---------------------------------------------------------------- comprobacion
 paso "Comprobando la configuracion de Hyprland"
-if Hyprland --verify-config -c "$C/hypr/hyprland.lua" 2>&1 | grep -q 'config ok'; then
+# sin sesion grafica abierta (por ejemplo, lanzado desde preparar.sh) no existe
+# XDG_RUNTIME_DIR y Hyprland se niega a correr, aunque solo sea para revisar
+rt=${XDG_RUNTIME_DIR:-}
+[ -n "$rt" ] || rt=$(mktemp -d)
+if XDG_RUNTIME_DIR="$rt" Hyprland --verify-config -c "$C/hypr/hyprland.lua" 2>&1 | grep -q 'config ok'; then
     aviso "config ok"
 else
     aviso "la configuracion tiene errores; para verlos:"

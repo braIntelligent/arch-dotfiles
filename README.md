@@ -1,6 +1,6 @@
 # arch-dotfiles
 
-Escritorio en mosaico para **Mac con Apple Silicon**, sobre [Asahi ALARM](https://asahi-alarm.org) (Arch Linux ARM): Hyprland, una barra, menús hechos con rofi y temas que cambian todo el sistema de una vez. Se instala con un solo script sobre la imagen mínima de ALARM.
+Escritorio en mosaico para **Mac con Apple Silicon**, sobre [Asahi ALARM](https://asahi-alarm.org) (Arch Linux ARM): Hyprland, una barra, menús hechos con rofi y temas que cambian todo el sistema de una vez. Se instala con un comando sobre la imagen mínima de ALARM.
 
 Probado en un MacBook Air M1.
 
@@ -20,23 +20,46 @@ Probado en un MacBook Air M1.
 
 Hace falta un Mac con Apple Silicon y Asahi ALARM en su variante **Minimal** ya instalado.
 
-### 1. Primer arranque de ALARM
+### 1. Conectar la red
 
-La imagen mínima arranca en consola con el usuario `root` (clave `root`). Hay que conectar la red y crear un usuario normal:
+La imagen mínima arranca en consola con el usuario `root` (clave `root`). Lo único que hay que hacer a mano es conectar el Wi-Fi:
+
+```sh
+nmcli device wifi connect "NOMBRE_RED" password "CLAVE"
+```
+
+### 2. Un comando
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/braIntelligent/arch-dotfiles/main/hypr/preparar.sh | sh
+```
+
+El script pregunta la distribución del teclado, el nombre de usuario, las claves, la zona horaria y el nombre del equipo. Con eso crea el usuario, le da `sudo`, cambia la clave de root, descarga este repositorio e instala el escritorio completo. Tarda varios minutos, sobre todo por la compilación de rofi 2 (los repositorios traen la 1.7.5, que no funciona en Wayland).
+
+Al terminar se escribe `exit` y se inicia sesión con el usuario nuevo: Hyprland parte solo.
+
+Como se ejecuta como root, conviene leerlo antes. Para eso se descarga en vez de pasarlo directo a `sh`:
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/braIntelligent/arch-dotfiles/main/hypr/preparar.sh
+less preparar.sh
+sh preparar.sh
+```
+
+<details>
+<summary>Instalación paso a paso, sin el script de preparación</summary>
+
+Como root:
 
 ```sh
 loadkeys la-latin1                                    # teclado de la consola; omitir si es US
-nmcli device wifi connect "NOMBRE_RED" password "CLAVE"
 pacman -Syu git
-
 useradd -m -G wheel -s /bin/bash USUARIO
 passwd USUARIO
 passwd                                                # cambiar la clave de root
 EDITOR=vim visudo                                     # quitar el # de "%wheel ALL=(ALL:ALL) ALL"
 exit
 ```
-
-### 2. El escritorio
 
 Con el usuario nuevo:
 
@@ -46,11 +69,16 @@ cd arch-dotfiles
 sh hypr/instalar.sh --teclado latam
 ```
 
-`--teclado` es la distribución del teclado (`latam`, `es`, `us`, ...). Si se omite, se usa la de la consola.
+</details>
 
-El script instala los paquetes, compila rofi 2 (los repositorios traen la 1.7.5, que no funciona en Wayland), copia la configuración y deja Hyprland arrancando al iniciar sesión en la primera consola. Al terminar, se cierra la sesión y se vuelve a entrar.
+### Actualizar
 
-Se puede correr de nuevo cuando se quiera, por ejemplo después de un `git pull`: no duplica nada y respalda cada archivo que reemplaza.
+`hypr/instalar.sh` se puede correr de nuevo cuando se quiera: no duplica nada y respalda cada archivo que reemplaza.
+
+```sh
+cd ~/arch-dotfiles && git pull
+sh hypr/instalar.sh
+```
 
 ### 3. Fondos de pantalla
 
@@ -100,7 +128,7 @@ Los menús se cierran con la misma tecla que los abre.
 
 | Carpeta | Contenido |
 |---|---|
-| `hypr/` | El escritorio para Apple Silicon: configuración de Hyprland, barra, menús y el instalador |
+| `hypr/` | El escritorio para Apple Silicon: configuración de Hyprland, barra, menús, `preparar.sh` (primer arranque) e `instalar.sh` (escritorio) |
 | `compartido/` | Lo que usan las dos variantes: kitty, zsh, temas y qutebrowser |
 | `extras/` | Opcionales: límite de carga, LocalSend, NvChad, herramientas de BlackArch |
 | `bspwm/` | La variante para máquina virtual (ver más abajo) |
