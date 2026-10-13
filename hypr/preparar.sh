@@ -1,7 +1,7 @@
 #!/bin/sh
 # Prepara un Asahi ALARM "Minimal" recien instalado y deja el escritorio armado.
 # Pregunta lo necesario (red, teclado, usuario, claves, zona horaria, nombre del
-# equipo), crea el usuario y lanza hypr/instalar.sh con el.
+# equipo, idioma, SSH), crea el usuario y lanza hypr/instalar.sh con el.
 #
 # Se corre como root en el primer arranque:
 #     curl -fsSL https://raw.githubusercontent.com/braIntelligent/arch-dotfiles/main/hypr/preparar.sh | sh
@@ -113,12 +113,38 @@ principal() {
     preguntar "Nombre del equipo" "$(cat /etc/hostname 2>/dev/null || echo arch)"
     EQUIPO=$R
 
+    while :; do
+        preguntar "Idioma del sistema (es_CL, es_ES, es_MX, en_US, ...)" en_US
+        IDIOMA=$R
+        grep -q "^#\\{0,1\\}$IDIOMA\\.UTF-8 UTF-8" /etc/locale.gen && break
+        aviso "no existe ese idioma; la lista esta en /etc/locale.gen"
+    done
+
+    # la imagen de ALARM trae SSH encendido y abierto a toda la red
+    preguntar "Dejar SSH encendido, para entrar a este equipo desde otro? s/n" n
+    case "$R" in
+        s|S|si|SI|Si) SSH=si ;;
+        *)            SSH=no ;;
+    esac
+
     # ------------------------------------------------------------ sistema
     paso "Zona horaria y nombre del equipo"
     ln -sf "/usr/share/zoneinfo/$ZONA" /etc/localtime
     timedatectl set-ntp true 2>/dev/null || true
     printf '%s\n' "$EQUIPO" > /etc/hostname
     hostname "$EQUIPO" 2>/dev/null || true
+
+    paso "Idioma"
+    sed -i "s/^#\\($IDIOMA\\.UTF-8 UTF-8\\)/\\1/" /etc/locale.gen
+    locale-gen >/dev/null
+    printf 'LANG=%s.UTF-8\n' "$IDIOMA" > /etc/locale.conf
+    aviso "$IDIOMA.UTF-8"
+
+    if [ "$SSH" = no ]; then
+        # las conexiones ya abiertas siguen; solo deja de aceptar nuevas
+        systemctl disable --now sshd.service >/dev/null 2>&1 || true
+        aviso "SSH apagado (se enciende con: systemctl enable --now sshd)"
+    fi
 
     paso "Actualizando el sistema"
     pacman -Syu --noconfirm --needed git sudo

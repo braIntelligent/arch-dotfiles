@@ -69,7 +69,7 @@ sudo pacman -S --needed --noconfirm \
     wl-clipboard cliphist grim slurp wf-recorder wtype jq libnotify \
     hyprpolkitagent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk xdg-utils \
     pipewire pipewire-pulse wireplumber brightnessctl playerctl \
-    bluez bluez-utils bluetui kdeconnect \
+    bluez bluez-utils bluetui kdeconnect openvpn nss \
     zsh zsh-autosuggestions zsh-syntax-highlighting fzf lsd bat \
     ttf-hack-nerd noto-fonts-emoji \
     zram-generator \
@@ -199,7 +199,7 @@ sh "$RAIZ/extras/actualizar-yt-dlp.sh" || aviso "no se pudo actualizar yt-dlp; d
 
 # ---------------------------------------------------------------- fondos
 paso "Fondos de pantalla"
-mkdir -p "$HOME/Pictures/wallpapers" "$HOME/Pictures/capturas" "$HOME/Videos/grabaciones"
+mkdir -p "$HOME/Pictures/wallpapers" "$HOME/Pictures/capturas" "$HOME/Videos/grabaciones" "$HOME/vpn"
 if [ -d "$RAIZ/wallpapers" ]; then
     for f in "$RAIZ"/wallpapers/*; do
         [ -f "$f" ] && [ ! -f "$HOME/Pictures/wallpapers/$(basename "$f")" ] && cp "$f" "$HOME/Pictures/wallpapers/"

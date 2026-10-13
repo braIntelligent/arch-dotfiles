@@ -11,7 +11,7 @@ rlwrap jq tmux fzf sshpass wget python-pipx \
 gobuster nikto sqlmap wpscan zaproxy ffuf feroxbuster dirsearch wfuzz whatweb nuclei \
 hydra medusa hashcat crunch hashid hash-identifier cewl seclists \
 impacket netexec smbclient smbmap enum4linux-ng evil-winrm kerbrute chisel ligolo-ng peass \
-wireshark-qt burpsuite bloodhound"
+wireshark-qt bloodhound"
 
 pacman -Sy --noconfirm >/dev/null
 

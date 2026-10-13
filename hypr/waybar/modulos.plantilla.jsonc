@@ -12,7 +12,12 @@
         "on-click": "~/.config/hypr/scripts/grabar.sh"
     },
     "custom/ip":     { "exec": "~/.config/waybar/scripts/ip.sh",     "interval": 2, "tooltip": false },
-    "custom/vpn":    { "exec": "~/.config/waybar/scripts/vpn.sh",    "interval": 2, "tooltip": false },
+    // clic: conectar la VPN (o traer su ventana al frente)
+    "custom/vpn":    { "exec": "~/.config/waybar/scripts/vpn.sh",    "interval": 2, "tooltip": false,
+                       "on-click": "~/.config/hypr/scripts/vpn.sh" },
+    // clic: encender o apagar Caido
+    "custom/proxy":  { "exec": "~/.config/waybar/scripts/proxy.sh",  "interval": 3, "tooltip": false,
+                       "on-click": "~/.config/hypr/scripts/caido.sh" },
     "custom/target": { "exec": "~/.config/waybar/scripts/target.sh", "interval": 2, "tooltip": false },
 
     "hyprland/workspaces": {

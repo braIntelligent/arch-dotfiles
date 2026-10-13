@@ -10,7 +10,7 @@
     "spacing": 0,
     "include": ["~/.config/waybar/modulos.jsonc"],
 
-    "modules-left":   ["custom/arch", "custom/ip", "custom/vpn"],
+    "modules-left":   ["custom/arch", "custom/ip", "custom/vpn", "custom/proxy"],
     "modules-center": ["hyprland/workspaces"],
     "modules-right":  ["custom/grabando", "custom/target", "battery", "clock"]
 }

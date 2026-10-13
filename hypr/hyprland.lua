@@ -129,6 +129,15 @@ hl.window_rule({
     move  = { "monitor_w * 0.2", 40 },
 })
 
+-- VPN (openvpn): ventana flotante con el registro; cerrarla corta la VPN
+hl.window_rule({
+    name  = "vpn",
+    match = { class = "^vpn$" },
+    float = true,
+    size  = { "monitor_w * 0.6", "monitor_h * 0.5" },
+    move  = { "monitor_w * 0.2", "monitor_h * 0.25" },
+})
+
 -- bluetui: ventana flotante al centro. stay_focused: mientras este abierta se queda
 -- con el teclado, aunque el puntero pase sobre otra ventana (si no, las teclas
 -- se iban a la de atras). Se cierra con q o con Super + G.
@@ -183,6 +192,7 @@ hl.bind(M .. " + G",         sh(S .. "bluetooth.sh"),     { description = "bluet
 hl.bind(M .. " + SHIFT + N", sh("makoctl dismiss -a"),    { description = "cerrar las notificaciones" })
 hl.bind(M .. " + SHIFT + G", sh(S .. "grabar.sh"),        { description = "grabar la pantalla / detener" })
 hl.bind(M .. " + SHIFT + M", menu("musica.sh"),         { description = "musica de YouTube: buscar, detener" })
+hl.bind(M .. " + SHIFT + O", menu("vpn.sh"),            { description = "VPN de HTB (OpenVPN)" })
 hl.bind(M .. " + SHIFT + V", menu("portapapeles.sh"),   { description = "historial del portapapeles" })
 hl.bind(M .. " + SHIFT + R", menu("configs.sh"),        { description = "editar configs" })
 hl.bind(M .. " + SHIFT + I", menu("keyboard.sh"),       { description = "distribucion de teclado" })
