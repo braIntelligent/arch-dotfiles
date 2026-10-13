@@ -8,7 +8,8 @@ VER=1.18.2
 SHA256=dd61f74f1ce3f4e25aca41cd3ce650d6a99353d7baba81a8139807275b88e606
 
 [ "$(uname -m)" = aarch64 ] || { echo "este script es para aarch64"; exit 1; }
-sudo pacman -S --needed --noconfirm gtk3 libayatana-appindicator
+# libayatana-indicator y ayatana-ido no entran solas como dependencias y sin ellas no abre
+sudo pacman -S --needed --noconfirm gtk3 libayatana-appindicator libayatana-indicator ayatana-ido
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
