@@ -1,8 +1,31 @@
+<div align="center">
+
 # arch-dotfiles
 
-Escritorio en mosaico para **Mac con Apple Silicon**, sobre [Asahi ALARM](https://asahi-alarm.org) (Arch Linux ARM): Hyprland, una barra, menús hechos con rofi y temas que cambian todo el sistema de una vez. Se instala con un comando sobre la imagen mínima de ALARM.
+**Arch Linux en un Mac con Apple Silicon, armado pieza por pieza.**
 
-Probado en un MacBook Air M1.
+Hyprland · waybar · rofi · kitty · zsh, sobre [Asahi ALARM](https://asahi-alarm.org)
+
+![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-M1-000000?logo=apple&logoColor=white)
+![Arch Linux ARM](https://img.shields.io/badge/Arch%20Linux%20ARM-aarch64-1793d1?logo=archlinux&logoColor=white)
+![Hyprland](https://img.shields.io/badge/Hyprland-Lua-58e1ff)
+![Licencia MIT](https://img.shields.io/badge/licencia-MIT-73daca)
+
+</div>
+
+Un escritorio en mosaico que se maneja entero con el teclado y se instala con un comando sobre la imagen mínima de ALARM. Sin entorno de escritorio debajo: cada parte está elegida, configurada y comentada, para que se pueda leer y cambiar.
+
+## Por qué existe
+
+Empezó como una forma de aprender Arch a mano: una máquina virtual, una instalación desde cero y un escritorio bspwm que fui armando mientras entendía qué hacía cada comando. Cuando quedó como quería, lo llevé al equipo real, un MacBook Air M1, y ahí hubo que rehacerlo en Wayland.
+
+Lo uso a diario para estudiar ciberseguridad, y se nota en los detalles: la barra tiene un modo de laboratorio con la IP, la VPN y la máquina objetivo siempre a la vista.
+
+Tres ideas lo ordenan:
+
+- **Una tecla abre y la misma cierra.** Menús, terminal desplegable, Bluetooth, grabación.
+- **Todo con `Super`.** Nada de combinaciones con Ctrl y Alt que obligan a torcer la mano.
+- **Se puede leer.** Los scripts son cortos y explican el porqué, no solo el qué.
 
 ## Qué incluye
 
@@ -18,7 +41,7 @@ Probado en un MacBook Air M1.
 
 ## Instalación
 
-Hace falta un Mac con Apple Silicon y Asahi ALARM en su variante **Minimal** ya instalado.
+Hace falta un Mac con Apple Silicon y Asahi ALARM en su variante **Minimal** ya instalado. Está probado en un MacBook Air M1.
 
 ### 1. Conectar la red
 
@@ -158,6 +181,10 @@ Las dos variantes tienen menús y scripts parecidos a propósito: cada una es in
 - **Las teclas de volumen no responden justo después de instalar.** El audio queda activo desde el siguiente inicio de sesión.
 - **La música de YouTube deja de sonar.** YouTube cambia seguido; se arregla con `sh extras/actualizar-yt-dlp.sh`.
 - **Hyprland no parte.** El registro queda en `~/.cache/hyprland-inicio.log`, y la configuración se revisa con `Hyprland --verify-config -c ~/.config/hypr/hyprland.lua`.
+
+## Contribuir
+
+Si lo pruebas en otro Mac (un M2, un Pro con pantalla de 120 Hz, un equipo de escritorio), cuéntame cómo te fue en un *issue*: es justo lo que no puedo probar. Las correcciones y los temas nuevos son bienvenidos.
 
 ## Créditos
 
