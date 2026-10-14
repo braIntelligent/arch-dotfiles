@@ -29,7 +29,7 @@ aviso() { printf '    %s\n' "$1"; }
 
 [ "$(id -u)" != 0 ] || { echo "corre este script como usuario normal, no como root"; exit 1; }
 command -v pacman >/dev/null || { echo "esto es para Arch Linux (no encuentro pacman)"; exit 1; }
-for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$COMUN/themes" "$COMUN/kitty" "$COMUN/qutebrowser" "$COMUN/yazi" "$COMUN/nvim" "$COMUN/zsh"; do
+for d in "$AQUI/scripts" "$AQUI/waybar" "$AQUI/rofi" "$COMUN/themes" "$COMUN/kitty" "$COMUN/qutebrowser" "$COMUN/yazi" "$COMUN/nvim" "$COMUN/tmux" "$COMUN/zsh"; do
     [ -d "$d" ] || { echo "falta la carpeta $d: clona el repositorio completo"; exit 1; }
 done
 

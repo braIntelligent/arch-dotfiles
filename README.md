@@ -36,12 +36,13 @@ Tres ideas lo ordenan:
 | | |
 |---|---|
 | Gestor de ventanas | Hyprland (Wayland), configurado en Lua, con atajos tipo vim |
-| Barra | waybar en dos modos: métricas del equipo, o IP, VPN y máquina objetivo para laboratorios de seguridad |
-| Menús | rofi 2: energía, fondos, temas con vista previa, hoja de atajos, capturas, portapapeles |
+| Barra | waybar en dos modos: métricas del equipo, o IP, VPN, proxy y máquina objetivo para laboratorios de seguridad |
+| Menús | rofi 2: energía, fondos, temas con vista previa, hoja de atajos, capturas, portapapeles, wifi, VPN, calculadora y selector de color |
 | Temas | Tokyo Night, Catppuccin, Gruvbox y Arch; se aplican a ventanas, barra, menús, terminal, notificaciones, bloqueo, navegador y aplicaciones GTK y Qt |
-| Terminal | kitty con zsh, powerlevel10k y atajos estilo tmux |
+| Terminal | kitty con zsh, powerlevel10k, tmux y funciones para laboratorio (`mkt`, `extractPorts`, `addhost`) |
+| Programas | qutebrowser como navegador, yazi para los archivos, zathura para los PDF, Neovim liviano, mpv e imv; todos toman los colores del tema |
 | Propio del Mac | teclas de volumen y brillo con indicador en pantalla, luz del teclado, gestos del trackpad, parlantes, límite de carga de la batería |
-| Sesión | bloqueo y suspensión por inactividad, luz nocturna, notificaciones, Bluetooth, grabación de pantalla |
+| Sesión | bloqueo y suspensión por inactividad, luz nocturna, notificaciones, Bluetooth, capturas con anotación y grabación de pantalla |
 
 ## Instalación
 
@@ -139,6 +140,7 @@ No vienen incluidos. Las imágenes van en `~/Pictures/wallpapers` y se eligen co
 | `Super + Shift + F` | Archivos con teclado (yazi); `Espacio` agranda la vista previa |
 | `Super + Shift + U` | Utilidades: wifi, calculadora, color, anotar una captura, actualizar |
 | `Super + Tab` | Buscar una ventana abierta y saltar a ella |
+| `Super + Shift + Y` | Luz nocturna: encender o apagar a mano |
 | `Super + Shift + X` | Bloquear |
 | `Super + Shift + E` | Apagar, reiniciar, suspender |
 | Tres dedos hacia los lados | Cambiar de escritorio |
@@ -161,20 +163,20 @@ Los menús se cierran con la misma tecla que los abre.
 
 **Instantáneas.** `sudo sh extras/instantaneas.sh` deja una foto del sistema antes y después de cada cambio hecho con pacman, para poder deshacerlo.
 
-**Cortafuegos.** `sudo sh extras/cortafuegos.sh` bloquea todo lo que entra, salvo lo que llega por la VPN (los listeners del laboratorio), KDE Connect y LocalSend.
+**Cortafuegos.** `sudo sh extras/cortafuegos.sh` bloquea todo lo que entra, salvo lo que llega por la VPN (los listeners del laboratorio), KDE Connect y LocalSend. Ojo: la VPN de un laboratorio se comparte con otras personas, y por ella queda a la vista cualquier servicio que tengas escuchando.
 
 ## Estructura
 
 | Carpeta | Contenido |
 |---|---|
 | `hypr/` | El escritorio para Apple Silicon: configuración de Hyprland, barra, menús, `preparar.sh` (primer arranque) e `instalar.sh` (escritorio) |
-| `compartido/` | Lo que usan las dos variantes: kitty, zsh, temas y qutebrowser |
-| `extras/` | Opcionales: límite de carga, cortafuegos, LocalSend, NvChad, Caido y herramientas de BlackArch |
+| `compartido/` | Terminal y programas: kitty, zsh, tmux, Neovim, yazi, qutebrowser y los temas |
+| `extras/` | Opcionales: límite de carga, cortafuegos, instantáneas, LocalSend, NvChad, Caido, certificado del proxy y herramientas de BlackArch |
 | `bspwm/` | La variante para máquina virtual (ver más abajo) |
 
 ## Variante para máquina virtual
 
-Hyprland necesita una tarjeta de video real y en una máquina virtual se arrastra. Para ese caso está `bspwm/`, el mismo escritorio sobre X11 (bspwm, sxhkd, polybar, picom y rofi), con los mismos atajos, menús y temas. La uso en VMware Fusion.
+Hyprland necesita una tarjeta de video real y en una máquina virtual se arrastra. Para ese caso está `bspwm/`, el escritorio del que nació este, sobre X11 (bspwm, sxhkd, polybar, picom y rofi). Comparte los atajos básicos, los menús principales y los temas, pero no recibe lo que se ha ido agregando a la variante de Hyprland (barra de laboratorio, VPN, utilidades, grabación). La uso en VMware Fusion.
 
 No tiene instalador: cada carpeta se copia a su lugar en `~/.config`.
 
