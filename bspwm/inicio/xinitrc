@@ -1,0 +1,9 @@
+# startx lee este archivo (~/.xinitrc): prepara X11 y lanza bspwm
+setxkbmap latam
+xsetroot -cursor_name left_ptr
+# pantalla Retina: resolucion nativa y todo al doble (ver Xresources)
+salida=$(xrandr | awk '/ connected/ {print $1; exit}')
+xrandr --output "$salida" --mode 2560x1600
+[ -f ~/.Xresources ] && xrdb -merge ~/.Xresources
+sxhkd &
+exec bspwm

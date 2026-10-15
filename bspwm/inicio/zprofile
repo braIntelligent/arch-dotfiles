@@ -1,0 +1,4 @@
+# Al entrar por la primera consola, arranca X11 (y con el, bspwm)
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+    exec startx
+fi
