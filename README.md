@@ -138,9 +138,8 @@ No vienen incluidos. Las imágenes van en `~/Pictures/wallpapers` y se eligen co
 | `Super + Shift + M` | Música de YouTube, solo audio |
 | `Super + Shift + O` | VPN del laboratorio (OpenVPN) |
 | `Super + Shift + F` | Archivos con teclado (yazi); `Espacio` agranda la vista previa |
-| `Super + Shift + U` | Utilidades: wifi, calculadora, color, anotar una captura, actualizar |
+| `Super + Shift + U` | Utilidades: wifi, calculadora, color, luz nocturna, anotar una captura, actualizar |
 | `Super + Tab` | Buscar una ventana abierta y saltar a ella |
-| `Super + Shift + Y` | Luz nocturna: encender o apagar a mano |
 | `Super + Shift + X` | Bloquear |
 | `Super + Shift + E` | Apagar, reiniciar, suspender |
 | Tres dedos hacia los lados | Cambiar de escritorio |
