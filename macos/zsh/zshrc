@@ -1,0 +1,107 @@
+# ~/.zshrc — macOS (amnesia). Adaptado del repo arch-dotfiles/compartido/zsh.
+# Orden: instant prompt, PATH, historial, teclas, completado, plugins, alias, funciones, prompt.
+
+# ----------------------------------------------------------------------------
+# Powerlevel10k instant prompt (tiene que ir arriba de todo)
+# ----------------------------------------------------------------------------
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# ----------------------------------------------------------------------------
+# PATH: binarios de usuario (lsd, bat, zoxide, fzf, aerospace, kitty, orb)
+# ----------------------------------------------------------------------------
+export PATH="$HOME/.local/bin:$PATH"
+
+# ----------------------------------------------------------------------------
+# Historial
+# ----------------------------------------------------------------------------
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt histignorealldups sharehistory
+
+# ----------------------------------------------------------------------------
+# Teclas
+# ----------------------------------------------------------------------------
+bindkey -e
+bindkey '^[[H'    beginning-of-line   # Inicio
+bindkey '^[[F'    end-of-line         # Fin
+bindkey '^[[3~'   delete-char         # Supr
+bindkey '^[[1;3C' forward-word        # Alt + derecha
+bindkey '^[[1;3D' backward-word       # Alt + izquierda
+
+# ----------------------------------------------------------------------------
+# Completado
+# ----------------------------------------------------------------------------
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2
+# Colores de ls/lsd/completado. dircolors es GNU (no viene en macOS): si no esta,
+# fijamos un LS_COLORS por defecto. En ambos casos quitamos la negrita.
+if command -v dircolors >/dev/null; then
+  eval "$(dircolors -b)"
+else
+  export LS_COLORS="di=34:ln=36:so=35:pi=33:ex=32:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=34;42:*.tar=31:*.tgz=31:*.zip=31:*.gz=31:*.bz2=31:*.7z=31"
+fi
+export LS_COLORS=${LS_COLORS//01;/}        # sin negrita (lsd tambien usa LS_COLORS)
+export LS_COLORS=${LS_COLORS//=1;/=}
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' menu select=long
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+# ----------------------------------------------------------------------------
+# Plugins (clonados en ~/.local/share/zsh/plugins)
+# ----------------------------------------------------------------------------
+ZPLUG="$HOME/.local/share/zsh/plugins"
+[ -f "$ZPLUG/zsh-sudo/sudo.plugin.zsh" ] && source "$ZPLUG/zsh-sudo/sudo.plugin.zsh"            # Esc Esc = sudo
+[ -f "$ZPLUG/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "$ZPLUG/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+# ----------------------------------------------------------------------------
+# Alias
+# ----------------------------------------------------------------------------
+alias ls='lsd --group-dirs=first'
+alias ll='lsd -lh --group-dirs=first'
+alias la='lsd -a --group-dirs=first'
+alias lla='lsd -lha --group-dirs=first'
+alias cat='bat'
+alias catn='bat --style=plain'
+alias catnp='bat --style=plain --paging=never'
+
+# ----------------------------------------------------------------------------
+# Funciones del lab (mkt, extractPorts, addhost/delhost) — version macOS
+# ----------------------------------------------------------------------------
+[ -f ~/.config/lab.zsh ] && source ~/.config/lab.zsh
+
+# zoxide: "z nombre" salta a una carpeta ya visitada
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+
+# Ajustes solo de este equipo: no los pisa nada
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# ----------------------------------------------------------------------------
+# Prompt: Powerlevel10k
+# ----------------------------------------------------------------------------
+source ~/.local/share/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ----------------------------------------------------------------------------
+# fzf: Ctrl+R historial, Ctrl+T archivos, Alt+C cd (fzf >=0.48 emite los binds)
+# ----------------------------------------------------------------------------
+command -v fzf >/dev/null && source <(fzf --zsh)
+
+# El resaltado de sintaxis tiene que cargarse al final
+[ -f "$ZPLUG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source "$ZPLUG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

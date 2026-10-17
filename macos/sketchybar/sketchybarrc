@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# sketchybar — replica del polybar de Arch (tokyonight):
+#   izquierda: logo + ip + vpn
+#   centro:    workspaces como dots (focused azul / ocupado morado / vacio dim)
+#   derecha:   target + cpu + memory + reloj
+
+PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+FONT="Hack Nerd Font"
+
+# colores del tema activo (set-theme.sh); fallback tokyonight
+source "$HOME/.config/sketchybar/colors.sh" 2>/dev/null
+: "${BAR_BG:=0xf01a1b26}" "${FG:=0xffc0caf5}" "${ACCENT:=0xff7aa2f7}" "${BORDER:=0xff24283b}"
+
+sketchybar --bar height=36 position=top color=$BAR_BG padding_left=16 padding_right=16 \
+                 corner_radius=16 margin=10 y_offset=8 \
+                 border_width=2 border_color=$BORDER shadow=off topmost=on blur_radius=15
+
+sketchybar --default icon.font="$FONT:Bold:16.0" label.font="$FONT:Bold:15.0" \
+                     icon.color=$FG label.color=$FG \
+                     padding_left=6 padding_right=6 \
+                     label.padding_left=4 label.padding_right=4 \
+                     icon.padding_left=6 icon.padding_right=4
+
+# ---- eventos custom (deben declararse ANTES de --subscribe) ----
+sketchybar --add event vpn_change \
+           --add event target_change
+
+# ---- izquierda: grupo lab (ip vpn) + grupo sys (wifi volume) ----
+# (los items ocultos parten con update_freq=0; toggle.sh les da frecuencia al mostrarlos)
+sketchybar --add item ip     left --set ip     update_freq=0  script="$PLUGIN_DIR/ip.sh"     drawing=on \
+                   --subscribe ip vpn_change wifi_change system_woke \
+           --add item vpn    left --set vpn    update_freq=0  script="$PLUGIN_DIR/vpn.sh"    drawing=on \
+                   --subscribe vpn vpn_change wifi_change system_woke \
+           --add item wifi   left --set wifi   update_freq=0  script="$PLUGIN_DIR/wifi.sh"   drawing=off \
+                   --subscribe wifi wifi_change \
+           --add item volume left --set volume script="$PLUGIN_DIR/volume.sh" drawing=off \
+                   --subscribe volume volume_change
+
+# ---- picker (nombre de tema/wallpaper durante el modo; oculto por defecto) ----
+sketchybar --add item picker center \
+           --set picker drawing=off icon.drawing=off \
+                 label.font="$FONT:Bold:16.0" label.color=$ACCENT \
+                 background.color=$BORDER background.corner_radius=8 background.height=28 \
+                 background.drawing=on
+
+# ---- centro: workspaces (dots) ----
+sketchybar --add event aerospace_workspace_change
+for i in 1 2 3 4 5; do
+  sketchybar --add item space.$i center \
+             --set space.$i icon.drawing=off label.font="$FONT:Bold:14.0" \
+                   update_freq=30 \
+                   click_script="$HOME/.local/bin/aerospace workspace $i" \
+                   script="$PLUGIN_DIR/aerospace.sh $i" \
+             --subscribe space.$i aerospace_workspace_change front_app_switched
+done
+
+# ---- derecha: reloj (siempre) + grupo sys (battery memory cpu) + grupo lab (target) ----
+# (al lado derecho el primero agregado queda mas a la derecha)
+sketchybar --add item clock   right --set clock   update_freq=10 script="$PLUGIN_DIR/clock.sh" \
+           --add item battery right --set battery update_freq=0  script="$PLUGIN_DIR/battery.sh" drawing=off \
+                   --subscribe battery power_source_change \
+           --add item memory  right --set memory  update_freq=0  script="$PLUGIN_DIR/memory.sh"  drawing=off \
+           --add item cpu     right --set cpu     update_freq=0  script="$PLUGIN_DIR/cpu.sh"     drawing=off \
+           --add item target  right --set target  update_freq=0  script="$PLUGIN_DIR/target.sh"  drawing=on \
+                   --subscribe target target_change
+
+# estado inicial = lab
+echo lab > "$HOME/.config/sketchybar/mode"
+
+sketchybar --update

@@ -1,0 +1,5 @@
+name="Catppuccin Mocha"
+bg="#1e1e2e"; bg_alt="#313244"; fg="#cdd6f4"; dim="#6c7086"
+black="#45475a"; red="#f38ba8"; green="#a6e3a1"; yellow="#f9e2af"
+blue="#89b4fa"; magenta="#cba6f7"; cyan="#94e2d5"; white="#cdd6f4"
+accent="#89b4fa"

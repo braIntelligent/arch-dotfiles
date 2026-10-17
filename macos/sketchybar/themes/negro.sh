@@ -1,0 +1,5 @@
+name="Arch"
+bg="#000000"; bg_alt="#161616"; fg="#e0e0e0"; dim="#6b6b6b"
+black="#2a2a2a"; red="#ff5f5f"; green="#87d787"; yellow="#ffd787"
+blue="#87afff"; magenta="#d7afff"; cyan="#87d7d7"; white="#e0e0e0"
+accent="#1793d1"

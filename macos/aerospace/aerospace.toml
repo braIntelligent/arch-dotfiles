@@ -1,0 +1,146 @@
+# AeroSpace — config de amnesia (base: default v0.21.3-Beta)
+config-version = 2
+
+after-startup-command = []          # sketchybar lo arranca su LaunchAgent
+start-at-login = false              # lo maneja el LaunchAgent (más robusto)
+auto-reload-config = true
+
+# Avisar a sketchybar cuando cambia el workspace (resalta el activo)
+exec-on-workspace-change = ['/bin/bash', '-c',
+  '/Users/amnesia/.local/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE']
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+automatically-unhide-macos-hidden-apps = false
+
+persistent-workspaces = ["1", "2", "3", "4", "5"]
+
+on-mode-changed = []
+focus-follows-mouse.enabled = false
+key-mapping.preset = 'qwerty'
+
+# Gaps chicos para que se note la separación
+gaps.inner.horizontal = 8
+gaps.inner.vertical =   8
+gaps.outer.left =       8
+gaps.outer.bottom =     8
+gaps.outer.top =        8
+gaps.outer.right =      8
+
+# ---- reglas de ventanas: forzar tiling en apps que AeroSpace flota solo ----
+[[on-window-detected]]
+if.app-id = 'net.tunnelblick.tunnelblick'
+run = 'layout tiling'
+
+[mode.main.binding]
+    # Abrir / levantar apps (consonantes: no pisan tildes de Option+vocal/n)
+    alt-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --single-instance --directory ~'  # ventana nueva, mismo proceso
+    alt-shift-enter = 'exec-and-forget /bin/sh -c "cd /Users/amnesia; exec /Applications/kitty.app/Contents/MacOS/kitten quick-access-terminal"'  # scratchpad: toggle, abre en ~
+    alt-n = 'exec-and-forget open -a "Brave Browser"'
+    alt-c = 'exec-and-forget open -a "Visual Studio Code"'
+    alt-d = 'exec-and-forget open -a Discord'
+    alt-f = 'exec-and-forget open -a Finder'
+
+    # Alt+Shift+B: alterna la barra entre modo lab (ip/vpn/target) y sys (wifi/vol/bat/cpu/ram)
+    alt-shift-b = 'exec-and-forget /Users/amnesia/.config/sketchybar/toggle.sh'
+
+    # Alt+M: minimiza la ventana enfocada; si la app ya tiene minimizadas, las restaura
+    alt-m = 'exec-and-forget /Users/amnesia/.config/sketchybar/toggle-min.sh'
+    # Alt+Shift+M: RESCATE - restaura todas las ventanas minimizadas (si una se pierde)
+    alt-shift-m = 'exec-and-forget /Users/amnesia/.config/sketchybar/restore-min-all.sh'
+
+    # Alt+Shift+F: zoom (fullscreen del tiling) - expande la ventana enfocada; de nuevo, vuelve
+    alt-shift-f = 'fullscreen'
+
+    # Alt+B: ocultar / mostrar la barra
+    alt-b = 'exec-and-forget /Users/amnesia/.config/sketchybar/bar-toggle.sh'
+
+    # Alt+Shift+T: modo tema (h/l preview)  ·  Alt+Shift+W: modo wallpaper (h/l preview)
+    alt-shift-t = ['exec-and-forget /Users/amnesia/.config/sketchybar/cycle-theme.sh cur', 'mode theme']
+    alt-shift-w = ['exec-and-forget /Users/amnesia/.config/sketchybar/cycle-wall.sh cur', 'mode wall']
+
+    # Layout: Alt+T alterna tiles <-> accordion (no uso / ni , por el teclado latino)
+    alt-t = 'layout tiles accordion'
+    # Alt+V: cambia la orientación del split (al lado <-> apilado). Define cómo se
+    # abre la PRÓXIMA ventana. Es el equivalente i3 al auto-dwindle de bspwm/hypr.
+    alt-v = 'layout horizontal vertical'
+
+    # Foco (h/j/k/l)
+    alt-h = 'focus left'
+    alt-j = 'focus down'
+    alt-k = 'focus up'
+    alt-l = 'focus right'
+
+    # Mover ventana
+    alt-shift-h = 'move left'
+    alt-shift-j = 'move down'
+    alt-shift-k = 'move up'
+    alt-shift-l = 'move right'
+
+    # Resize: Alt+R entra a modo resize (evita chocar con \ y | del teclado latino)
+    alt-r = ['exec-and-forget /Users/amnesia/.config/sketchybar/mode-show.sh "RESIZE   h/l ancho   j/k alto   esc"', 'mode resize']
+
+    # Workspaces 1-5
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-3 = 'workspace 3'
+    alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+
+    # Mover ventana a workspace 1-5
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    alt-shift-3 = 'move-node-to-workspace 3'
+    alt-shift-4 = 'move-node-to-workspace 4'
+    alt-shift-5 = 'move-node-to-workspace 5'
+
+    # Navegación entre workspaces
+    alt-tab = 'workspace-back-and-forth'
+    alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+    # Entrar al modo service
+    alt-shift-space = ['exec-and-forget /Users/amnesia/.config/sketchybar/mode-show.sh "SERVICE   r reset   f float   esc salir"', 'mode service']
+
+[mode.service.binding]
+    esc = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'reload-config', 'mode main']
+    r = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'flatten-workspace-tree', 'mode main']
+    f = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'layout floating tiling', 'mode main']
+    backspace = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'close-all-windows-but-current', 'mode main']
+
+    alt-shift-h = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'join-with left', 'mode main']
+    alt-shift-j = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'join-with down', 'mode main']
+    alt-shift-k = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'join-with up', 'mode main']
+    alt-shift-l = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'join-with right', 'mode main']
+
+# Modo TEMA: h/l (o flechas) previsualizan el tema vecino; enter/esc salen
+[mode.theme.binding]
+    h = 'exec-and-forget /Users/amnesia/.config/sketchybar/cycle-theme.sh prev'
+    l = 'exec-and-forget /Users/amnesia/.config/sketchybar/cycle-theme.sh next'
+    left  = 'exec-and-forget /Users/amnesia/.config/sketchybar/cycle-theme.sh prev'
+    right = 'exec-and-forget /Users/amnesia/.config/sketchybar/cycle-theme.sh next'
+    enter = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'mode main']
+    esc   = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'mode main']
+
+# Modo WALLPAPER: h/l (o flechas) previsualizan el fondo vecino; enter/esc salen
+[mode.wall.binding]
+    h = 'exec-and-forget /Users/amnesia/.config/sketchybar/cycle-wall.sh prev'
+    l = 'exec-and-forget /Users/amnesia/.config/sketchybar/cycle-wall.sh next'
+    left  = 'exec-and-forget /Users/amnesia/.config/sketchybar/cycle-wall.sh prev'
+    right = 'exec-and-forget /Users/amnesia/.config/sketchybar/cycle-wall.sh next'
+    enter = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'mode main']
+    esc   = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'mode main']
+
+# Modo RESIZE: h/l ancho, j/k alto; enter/esc salen. (Alt+R para entrar)
+[mode.resize.binding]
+    h = 'resize width -50'
+    l = 'resize width +50'
+    j = 'resize height +50'
+    k = 'resize height -50'
+    enter = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'mode main']
+    esc   = ['exec-and-forget /Users/amnesia/.config/sketchybar/picker-hide.sh', 'mode main']
