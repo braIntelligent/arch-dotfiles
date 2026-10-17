@@ -1,0 +1,5 @@
+name="Rojo"
+bg="#1a0e0e"; bg_alt="#2d1515"; fg="#f5d9d9"; dim="#8a6060"
+black="#3a2020"; red="#ff5555"; green="#8fbf7f"; yellow="#e0b060"
+blue="#d98a8a"; magenta="#ff79c6"; cyan="#c08f9f"; white="#f5d9d9"
+accent="#ff3b30"
