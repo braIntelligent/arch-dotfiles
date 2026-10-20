@@ -17,7 +17,7 @@ i=${i:-0}
 
 while :; do
     sel=$(printf '%s\n' "$map" | cut -f1 \
-        | rofi -dmenu -format i -selected-row "$i" -kb-cancel "Escape,Super+space,Super+A" -i -p "Tema" \
+        | rofi -dmenu -format i -selected-row "$i" -kb-cancel "Escape,Super+space,Super+T" -i -p "Tema" \
                -mesg "h / l: probar    Enter: dejar    Esc: volver a $orig" \
                -theme "$HOME/.config/rofi/temas.rasi" \
                -theme-str "listview { columns: $cols; } textbox-prompt-colon { str: \"\"; }")

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Abre un config en nvim sin tener que buscar el archivo.
 choice=$(printf 'bspwm\nsxhkd\npolybar\npicom\nkitty\nrofi\nzshrc\np10k\n' \
-    | rofi -dmenu -kb-cancel "Escape,Super+space,Super+R" -i -p "Editar config" \
+    | rofi -dmenu -kb-cancel "Escape,Super+space,Super+e" -i -p "Editar config" \
            -theme "$HOME/.config/rofi/row.rasi" \
            -theme-str 'listview { columns: 8; } textbox-prompt-colon { str: ""; }')
 case "$choice" in

@@ -1,6 +1,8 @@
 #
 # Lanzadores y sistema
 #
+# Mismas letras que AeroSpace en el Mac: alli el modificador es Option,
+# aca es Cmd (super), asi no chocan cuando la VM esta en primer plano.
 
 # terminal
 super + Return
@@ -61,7 +63,7 @@ super + shift + x
 	~/.config/bspwm/scripts/lock.sh
 
 # terminal desplegable (scratchpad)
-super + d
+super + shift + Return
 	~/.config/bspwm/scripts/scratchpad.sh
 
 # menu central (fondos, editar config, bloquear, salir)
@@ -77,21 +79,17 @@ super + shift + e
 	~/.config/bspwm/scripts/powermenu.sh
 
 # fondos (wallpaper)
-super + shift + c
+super + shift + w
 	~/.config/bspwm/scripts/wallpaper.sh
 
 # temas (apariencia)
-super + shift + a
+super + shift + t
 	~/.config/bspwm/scripts/theme-selector.sh
 
 
 # atajos (cheat sheet)
 super + shift + d
 	~/.config/bspwm/scripts/cheatsheet.sh
-
-# editar configs (rice editor)
-super + shift + r
-	~/.config/bspwm/scripts/configs.sh
 
 # distribucion de teclado
 super + shift + i
@@ -106,24 +104,32 @@ super + Escape
 #
 
 # reiniciar bspwm (no cierra las ventanas)
-super + r
+super + shift + r
 	bspc wm -r
 
 # salir de bspwm, pidiendo confirmacion
 super + q
 	~/.config/sxhkd/scripts/salir.sh
 
-# cerrar ventana / matarla a la fuerza
-super + {_,shift + }w
-	bspc node -{c,k}
+# cerrar ventana
+super + w
+	bspc node -c
 
 #
 # Ventanas
 #
 
-# estado de la ventana: mosaico, pseudo-mosaico, flotante, pantalla completa
-super + {t,shift + t,s,f}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+# alternar flotante / mosaico
+super + s
+	bspc node -t ~floating
+
+# pantalla completa
+super + shift + f
+	bspc node -t ~fullscreen
+
+# alternar mosaico / monocle (una ventana a la vez)
+super + t
+	bspc desktop -l next
 
 # foco / intercambio en una direccion
 super + {_,shift + }{h,j,k,l}
@@ -141,12 +147,20 @@ super + m
 super + {_,shift + }{1-5}
 	bspc {desktop -f,node -d} '^{1-5}'
 
+# volver al escritorio anterior
+super + Tab
+	bspc desktop -f last
+
 #
 # Mover y redimensionar
 #
 
 # agrandar / achicar la ventana (derecha y abajo agrandan)
 super + shift + {Left,Down,Up,Right}
+	~/.config/sxhkd/scripts/redimensionar.sh {izquierda,abajo,arriba,derecha}
+
+# modo resize: h/l ancho, j/k alto, Esc sale
+super + r : {h,j,k,l}
 	~/.config/sxhkd/scripts/redimensionar.sh {izquierda,abajo,arriba,derecha}
 
 # mover una ventana flotante
