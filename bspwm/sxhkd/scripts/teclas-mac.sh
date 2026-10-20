@@ -35,3 +35,12 @@ fi
 
 # sin comillas a proposito: borrarlinea manda dos teclas seguidas
 xdotool key --clearmodifiers $keys
+
+# --clearmodifiers vuelve a apretar Cmd al terminar. Si lo soltaste antes,
+# queda pegado (el siguiente Enter abre una terminal): se suelta si el
+# teclado fisico ya no lo tiene apretado (133/134 = Super_L/Super_R).
+command -v xinput >/dev/null || exit 0
+for id in $(xinput list | grep 'slave  keyboard' | grep -v XTEST | sed 's/.*id=\([0-9]*\).*/\1/'); do
+    xinput query-state "$id" 2>/dev/null | grep -qE 'key\[13[34]\]=down' && exit 0
+done
+xdotool keyup Super_L Super_R

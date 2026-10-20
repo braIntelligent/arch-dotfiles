@@ -61,7 +61,7 @@ sudo pacman -Syu --noconfirm
 sudo pacman -S --needed --noconfirm \
     xorg-server xorg-xinit xorg-xsetroot xorg-xrandr xorg-setxkbmap xorg-xrdb mesa \
     bspwm sxhkd polybar picom rofi dunst libnotify feh \
-    kitty maim xclip xdotool wmctrl i3lock imagemagick jq \
+    kitty maim xclip xdotool xorg-xinput wmctrl i3lock imagemagick jq \
     zsh zsh-autosuggestions zsh-syntax-highlighting fzf lsd bat tmux \
     ttf-hack-nerd ttf-dejavu \
     openvpn neovim git curl wget
