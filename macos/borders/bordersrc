@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Borde de ventanas (JankyBorders). Toma el color de acento del tema activo.
+source "$HOME/.config/sketchybar/colors.sh" 2>/dev/null
+: "${ACCENT:=0xff7aa2f7}"
+: "${DIM:=0xff565f89}"
+borders \
+  active_color="$ACCENT" \
+  inactive_color="$DIM" \
+  style=round \
+  width=2.0 \
+  hidpi=on

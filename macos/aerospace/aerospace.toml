@@ -16,8 +16,10 @@ accordion-padding = 30
 default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
 
-on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
-automatically-unhide-macos-hidden-apps = false
+# move-mouse al cambiar de monitor causaba un rebote de foco al pasar al iPad
+# (Sidecar/AirPlay): el warp del mouse corria una carrera y volvia al workspace 1.
+on-focused-monitor-changed = []
+automatically-unhide-macos-hidden-apps = true
 
 persistent-workspaces = ["1", "2", "3", "4", "5"]
 
@@ -26,12 +28,22 @@ focus-follows-mouse.enabled = false
 key-mapping.preset = 'qwerty'
 
 # Gaps chicos para que se note la separación
-gaps.inner.horizontal = 8
-gaps.inner.vertical =   8
-gaps.outer.left =       8
-gaps.outer.bottom =     8
-gaps.outer.top =        8
-gaps.outer.right =      8
+gaps.inner.horizontal = 4
+gaps.inner.vertical = 4
+gaps.outer.left = 4
+gaps.outer.bottom = 4
+gaps.outer.top =        4
+gaps.outer.right = 4
+
+# Fijar workspaces a monitor: el 4 vive en el iPad (Sidecar), el resto en el
+# built-in. Evita el rebote (ir al 4 y saltar al 1) cuando AeroSpace repartia
+# los workspaces dinamicamente. Si el iPad no esta, el 4 cae solo al built-in.
+[workspace-to-monitor-force-assignment]
+1 = 'Built-in Retina Display'
+2 = 'Built-in Retina Display'
+3 = 'Built-in Retina Display'
+4 = 'Sidecar'
+5 = 'Built-in Retina Display'
 
 # ---- reglas de ventanas: forzar tiling en apps que AeroSpace flota solo ----
 [[on-window-detected]]

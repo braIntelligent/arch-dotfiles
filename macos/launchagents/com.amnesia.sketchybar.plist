@@ -17,6 +17,10 @@
     <true/>
     <key>KeepAlive</key>
     <true/>
+    <key>ProcessType</key>
+    <string>Interactive</string>
+    <key>LegacyTimers</key>
+    <true/>
     <key>StandardErrorPath</key>
     <string>/tmp/sketchybar.err.log</string>
 </dict>

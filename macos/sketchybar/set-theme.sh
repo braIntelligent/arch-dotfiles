@@ -157,4 +157,7 @@ SB=/Users/amnesia/.local/bin/sketchybar
 "$SB" --set picker label.color="$ACCENT" background.color="$BORDER" >/dev/null 2>&1
 # recolorea los items de datos al instante (scripts rapidos, no bloquea)
 "$SB" --update >/dev/null 2>&1
+# borde de ventanas (JankyBorders): seguir el acento del tema en vivo
+BORDERS=/Users/amnesia/.local/bin/borders
+[ -x "$BORDERS" ] && "$BORDERS" active_color="$ACCENT" inactive_color="$DIM" >/dev/null 2>&1
 echo "tema aplicado: $name"

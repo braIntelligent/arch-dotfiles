@@ -11,11 +11,11 @@ FONT="Hack Nerd Font"
 source "$HOME/.config/sketchybar/colors.sh" 2>/dev/null
 : "${BAR_BG:=0xf01a1b26}" "${FG:=0xffc0caf5}" "${ACCENT:=0xff7aa2f7}" "${BORDER:=0xff24283b}"
 
-sketchybar --bar height=36 position=top color=$BAR_BG padding_left=16 padding_right=16 \
-                 corner_radius=16 margin=10 y_offset=8 \
+sketchybar --bar height=32 position=top color=$BAR_BG padding_left=16 padding_right=16 \
+                 corner_radius=16 margin=4 y_offset=4 \
                  border_width=2 border_color=$BORDER shadow=off topmost=on blur_radius=15
 
-sketchybar --default icon.font="$FONT:Bold:16.0" label.font="$FONT:Bold:15.0" \
+sketchybar --default icon.font="$FONT:Bold:14.0" label.font="$FONT:Bold:13.0" \
                      icon.color=$FG label.color=$FG \
                      padding_left=6 padding_right=6 \
                      label.padding_left=4 label.padding_right=4 \
@@ -39,7 +39,7 @@ sketchybar --add item ip     left --set ip     update_freq=0  script="$PLUGIN_DI
 # ---- picker (nombre de tema/wallpaper durante el modo; oculto por defecto) ----
 sketchybar --add item picker center \
            --set picker drawing=off icon.drawing=off \
-                 label.font="$FONT:Bold:16.0" label.color=$ACCENT \
+                 label.font="$FONT:Bold:14.0" label.color=$ACCENT \
                  background.color=$BORDER background.corner_radius=8 background.height=28 \
                  background.drawing=on
 
@@ -47,7 +47,7 @@ sketchybar --add item picker center \
 sketchybar --add event aerospace_workspace_change
 for i in 1 2 3 4 5; do
   sketchybar --add item space.$i center \
-             --set space.$i icon.drawing=off label.font="$FONT:Bold:14.0" \
+             --set space.$i icon.drawing=off label.font="$FONT:Bold:13.0" \
                    update_freq=30 \
                    click_script="$HOME/.local/bin/aerospace workspace $i" \
                    script="$PLUGIN_DIR/aerospace.sh $i" \

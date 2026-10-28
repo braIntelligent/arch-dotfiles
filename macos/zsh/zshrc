@@ -80,6 +80,8 @@ alias lla='lsd -lha --group-dirs=first'
 alias cat='bat'
 alias catn='bat --style=plain'
 alias catnp='bat --style=plain --paging=never'
+alias vim='nvim'
+alias vi='nvim'
 
 # ----------------------------------------------------------------------------
 # Funciones del lab (mkt, extractPorts, addhost/delhost) — version macOS
